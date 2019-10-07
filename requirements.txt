@@ -1,5 +1,2 @@
-RPi
-RPIO
-pigpio
-gipiozero
+gpiozero
 colorzero
