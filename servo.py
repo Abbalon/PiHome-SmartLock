@@ -1,6 +1,5 @@
-from gpiozero import Servo
-from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
+from gpiozero import Servo
 
 """
 factory = PiGPIOFactory('192.168.10.15')
