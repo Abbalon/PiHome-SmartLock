@@ -3,7 +3,7 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
 
 # Declaración de los pines que vamos a usar
-servo_pin = 17
+servo_pin = 18
 ok_led_pin = 25
 warn_led_pin = 26
 error_led_pin = 6
@@ -25,14 +25,14 @@ for x in range(5):
     warn_led.blink(1, 1, 5)
     error_led.blink(1, 1, 5)
     monitor_led.blink(1, 1, 5)
-    print(servo)
+    print(servo.value)
     servo.min()
-    print(servo)
-    sleep(1)
+    print(servo.value)
+    sleep(5)
     servo.mid()
-    sleep(1)
+    sleep(5)
     servo.max()
-    sleep(1)
+    sleep(5)
     print(x)
 
 print("e voila")
