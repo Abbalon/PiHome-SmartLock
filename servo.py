@@ -1,6 +1,8 @@
+from time import sleep
+
+from digi.xbee.devices import ZigBeeDevice
 from gpiozero import Servo, LED
 from gpiozero.pins.pigpio import PiGPIOFactory
-from time import sleep
 
 # Declaración de los pines que vamos a usar
 servo_pin = 18
@@ -17,6 +19,10 @@ ok_led = LED(ok_led_pin, pin_factory=factory)
 warn_led = LED(warn_led_pin, pin_factory=factory)
 error_led = LED(error_led_pin, pin_factory=factory)
 monitor_led = LED(monitor_led_pin, pin_factory=factory)
+#Configuramos la antena Xbee
+# Comando para escanear puertos {dmesg | grep tty}
+# se accede a traves de RS232 masterport
+xbee = ZigBeeDevice("dev/tty")
 
 print("Empezamos")
 
