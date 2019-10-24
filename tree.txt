@@ -1,6 +1,6 @@
 .
-├── env.properties
-├── local.properties
+├── env.ini
+├── local.ini
 ├── README.md
 ├── requirements.txt
 ├── servo.py

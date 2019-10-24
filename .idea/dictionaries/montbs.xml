@@ -2,6 +2,10 @@
   <dictionary name="montbs">
     <words>
       <w>autor</w>
+      <w>baudrate</w>
+      <w>carga</w>
+      <w>configurado</w>
+      <w>xbee</w>
     </words>
   </dictionary>
 </component>

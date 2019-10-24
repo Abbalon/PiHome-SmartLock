@@ -22,7 +22,7 @@ monitor_led = LED(monitor_led_pin, pin_factory=factory)
 #Configuramos la antena Xbee
 # Comando para escanear puertos {dmesg | grep tty}
 # se accede a traves de RS232 masterport
-xbee = ZigBeeDevice("dev/tty")
+xbee = ZigBeeDevice("dev/tty", 9600)
 
 print("Empezamos")
 
