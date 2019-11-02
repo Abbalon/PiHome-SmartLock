@@ -4,7 +4,11 @@
       <w>autor</w>
       <w>baudrate</w>
       <w>carga</w>
+      <w>clase</w>
+      <w>configuración</w>
       <w>configurado</w>
+      <w>proyecto</w>
+      <w>puerta</w>
       <w>xbee</w>
     </words>
   </dictionary>
