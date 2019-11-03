@@ -10,7 +10,7 @@ import config
 setup(
     name=config.__project,
     version=config.__version,
-    description=config__description,
+    description=config.__description,
     author=config.__autor,
     # url='hhtp://joebloggsblog.com',
     packages=find_packages(),  # ['watchDog'],

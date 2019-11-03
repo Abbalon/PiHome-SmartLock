@@ -23,6 +23,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/__main__.py">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/config/__init__.py">
           <value>
             <set />
@@ -74,6 +79,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/watchDog/puerta.py">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/watchDog/watchDog.py">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/mnt/Almacenamiento/Utils/Deb/Zero-Project/config/__init__.py">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/mnt/Almacenamiento/Utils/Deb/Zero-Project/watchDog/watchDog.py">
           <value>
             <set />
           </value>

@@ -3,6 +3,8 @@
 # Cargamos los datos del fichero de configuración
 import os
 from configparser import ConfigParser
+from os import scandir, getcwd
+from os.path import abspath
 
 
 def read_config(cfg_files):
@@ -22,8 +24,26 @@ Lee los parámetros fijados en los ficheros de configuración
         return config_properties
 
 
+def ls_file(ruta=getcwd()):
+    """
+
+    :param ruta:
+    :return:
+    """
+    return [arch.name for arch in scandir(ruta)]
+
+
+def ls_a(ruta=getcwd()):
+    """
+
+    :param ruta:
+    :return:
+    """
+    return [abspath(arch.path) for arch in scandir(ruta)]
+
+
 # merge all into one config dictionary
-parameters = read_config(['../env.ini', '../local.ini'])
+parameters = read_config(['env.ini', 'local.ini'])
 
 __project = None
 __version = None
