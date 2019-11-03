@@ -42,6 +42,8 @@ def ls_a(ruta=getcwd()):
     return [abspath(arch.path) for arch in scandir(ruta)]
 
 
+ls_file()
+
 # merge all into one config dictionary
 parameters = read_config(['env.ini', 'local.ini'])
 

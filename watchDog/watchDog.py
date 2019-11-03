@@ -63,3 +63,8 @@ class WatchDog:
             print(x)
 
         print("et voila")
+
+    def __del__(self):
+        """Cerramos los elementos que podría ser peligrosos que se quedasen prendidos"""
+        self.servo.close()
+        self.xbee.close()
