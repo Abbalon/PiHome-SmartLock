@@ -15,13 +15,9 @@ R
 7
 env.ini,a/4/a43983655cee2abd58a966ca983e2b63be62a9ac
 8
-tree.txt,1/a/1a68e16c846e9bf39d6f0a21ee634ece38da843f
-8
 setup.py,8/e/8e2edce0d507e1297474f25c00cae94258db38d8
 =
 test/servo.py,1/e/1ed0bfecea8cfa99f4abd1904672a75fbfe9ca6e
-B
-watchDog/puerta.py,6/3/635ae493107f5d316adc725d27b0e4e2b0267662
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4/9/496a238a6afa168dbaf6efd37bb459331589579c
 @
@@ -790,7 +786,9 @@ Ovenv/lib/python3.6/site-packages/gpio-0.3.0-py3.6.egg-info/dependency_links.txt
 venv/pyvenv.cfg,b/0/b0e04816a9971064291cd324e57037faa4a05306
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-L
-build/lib/watchDog/puerta.py,5/5/559a3159914ec97509a56109841e5fc266521985
 B
 config/__init__.py,7/c/7c4c5de0ae6801f08fa7c742af850c6198fdb35d
+;
+__main__.py,f/6/f62d74e05be5f818f1b288b6653219b695385c68
+D
+watchDog/watchDog.py,1/4/14ee4d44c3ef7948c65f36596e8d14f27bd63b73
