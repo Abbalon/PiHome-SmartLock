@@ -1,3 +1,4 @@
+#!venv/bin/python3.6
 """Paquete que controla los ficheros de configuración del proyecto"""
 
 # Cargamos los datos del fichero de configuración
@@ -5,13 +6,17 @@ import os
 from configparser import ConfigParser
 from os import scandir, getcwd
 from os.path import abspath
+from typing import List, Union
 
 
-def read_config(cfg_files):
+def read_config(cfg_files) -> ConfigParser:
     """
-Lee los parámetros fijados en los ficheros de configuración
+    Lee los parámetros fijados en los ficheros de configuración
     :param cfg_files:
-    :return:
+    :return: los parámetros del fichero de configuración
+    @param cfg_files:
+    @return:
+    @rtype: ConfigParser
     """
     if cfg_files is not None:
         config_properties = ConfigParser()
@@ -24,22 +29,48 @@ Lee los parámetros fijados en los ficheros de configuración
         return config_properties
 
 
-def ls_file(ruta=getcwd()):
+def ls_file(ruta=getcwd()) -> List[Union[bytes, str]]:
     """
 
     :param ruta:
     :return:
+    @rtype: List[Union[bytes, str]]
+    @param ruta:
+    @return:
     """
     return [arch.name for arch in scandir(ruta)]
 
 
-def ls_a(ruta=getcwd()):
+def ls_a(ruta=getcwd()) -> List[Union[bytes, str]]:
     """
-
-    :param ruta:
-    :return:
+        :param ruta:
+        :return:
+        @rtype: List[Union[bytes, str]]
+        @param ruta:
+        @return:
     """
     return [abspath(arch.path) for arch in scandir(ruta)]
+
+
+def search_xbee_port() -> str:
+    """
+        Busca el último dispositivo usb insertado si contiene alguna de las palabras clave
+        relacionadas.
+    """
+    route = None
+
+    """
+        Si el parámetro está indicado, lo copiamos.
+        Esto será si previamente sabemos que la antena está en ese lugar montada"""
+    route = parameters.get('xbee', 'route')
+    if not route:
+
+    """En otro caso, ejecutamos un script, que la descubra
+    Partiendo de la suposición de que la antena no está previamente montada
+    detectará el nuevo dispositivo y se lo asignará como punto de montaje de la antena
+    """
+
+    return route
 
 
 ls_file()
@@ -64,6 +95,7 @@ pin_success = None
 # Servo
 pin_servo = None
 # XBee
+xbee_port = None
 xbee_baudrate = None
 xbee_route = None
 mac_puerta = None
@@ -100,6 +132,9 @@ if parameters.__len__() > 1:
 
     # Info del xbee
     xbee_baudrate = parameters.get('xbee', 'baudrate')
-    xbee_route = parameters.get('xbee', 'route')
+    # Lugar donde estará montado la antena
+    xbee_port = search_xbee_port()
+    # Dirección mac del dispositivo que estará situado en la puerta
     mac_puerta = parameters.get('xbee.mac', 'puerta')
+    # Dirección mac del dispositivo que gestionará los periféricos
     mac_router = parameters.get('xbee.mac', 'router')

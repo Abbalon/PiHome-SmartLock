@@ -68,3 +68,4 @@ class WatchDog:
         """Cerramos los elementos que podría ser peligrosos que se quedasen prendidos"""
         self.servo.close()
         self.xbee.close()
+        print("c'est fini de la mate")

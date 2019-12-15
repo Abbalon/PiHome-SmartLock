@@ -792,3 +792,5 @@ B
 __main__.py,f/6/f62d74e05be5f818f1b288b6653219b695385c68
 D
 watchDog/watchDog.py,1/4/14ee4d44c3ef7948c65f36596e8d14f27bd63b73
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
