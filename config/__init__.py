@@ -8,6 +8,8 @@ from os import scandir, getcwd
 from os.path import abspath
 from typing import List, Union
 
+from watchDog import xbee
+
 
 def read_config(cfg_files) -> ConfigParser:
     """
@@ -54,8 +56,9 @@ def ls_a(ruta=getcwd()) -> List[Union[bytes, str]]:
 
 def search_xbee_port() -> str:
     """
-        Busca el último dispositivo usb insertado si contiene alguna de las palabras clave
+        Busca entre los dispositivos usb insertado, si contiene alguna de las palabras clave
         relacionadas.
+        @see watchDog/xbee.py:7
     """
     route = None
 
@@ -64,6 +67,8 @@ def search_xbee_port() -> str:
         Esto será si previamente sabemos que la antena está en ese lugar montada"""
     route = parameters.get('xbee', 'route')
     if not route:
+        # serial.tools.list_ports.comports()
+        route = xbee.encontrar_rutas()
 
     """En otro caso, ejecutamos un script, que la descubra
     Partiendo de la suposición de que la antena no está previamente montada

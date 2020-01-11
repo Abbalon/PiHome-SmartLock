@@ -38,4 +38,5 @@ def main(args=None):
     stapleton.wake_up()
 
 
-main()
+if __name__ == "__main__":
+    main()

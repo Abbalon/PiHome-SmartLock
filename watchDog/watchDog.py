@@ -5,11 +5,11 @@ Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada co
 caso contrário, pintará el led rojo"""
 from time import sleep
 
-from digi.xbee.devices import ZigBeeDevice, RemoteZigBeeDevice
 from gpiozero import Servo, LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 import config
+from .xbee import XBee
 
 
 class WatchDog:
@@ -37,8 +37,8 @@ class WatchDog:
             self.monitor_led = LED(config.pin_monitor)
 
         # Configuramos la antena Xbee
-        self.xbee = ZigBeeDevice(config.xbee_route, config.xbee_baudrate)
-        self.remote_xbee = RemoteZigBeeDevice(self.xbee, config.mac_puerta)
+        self.xbee = XBee(config.xbee_route, config.xbee_baudrate)
+        self.remote_xbee = self.xbee.get_remote_Zigbee(config.mac_puerta)
 
     def wake_up(self):
         """
