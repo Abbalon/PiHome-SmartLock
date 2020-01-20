@@ -16,7 +16,7 @@ def encontrar_rutas() -> []:
     ports = serial.tools.list_ports.comports()
     filtered = []
     for port, desc, hwid in sorted(ports):
-        for word in desc.split:
+        for word in desc.split(' '):
             if word in xbeeAntenaWhiteList:
                 filtered.append(port)
                 break
@@ -35,8 +35,10 @@ class XBee(ZigBeeDevice):
         for port in port_list:
             super().__init__(port, baud_rate)
             try:
+                print(super()._get_operating_mode())
                 super().open()
-            except XBeeException:
+            except XBeeException as e:
+                print("ERROR: No se ha podido conectar con la antena XBee.\t\n" + str(e))
                 super().close()
             else:
                 print("Conectada la antena del puerto " + port)

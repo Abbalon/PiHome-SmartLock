@@ -15,7 +15,7 @@ from .xbee import XBee
 class WatchDog:
     """Representa el dispositivo que regulará el control de acceso"""
 
-    def __init__(self, remote=config.remote):
+    def __init__(self, remote):
 
         if remote:
             factory = PiGPIOFactory(host=config.remote_host)
@@ -37,7 +37,7 @@ class WatchDog:
             self.monitor_led = LED(config.pin_monitor)
 
         # Configuramos la antena Xbee
-        self.xbee = XBee(config.xbee_route, config.xbee_baudrate)
+        self.xbee = XBee(config.xbee_port, config.xbee_baudrate)
         self.remote_xbee = self.xbee.get_remote_Zigbee(config.mac_puerta)
 
     def wake_up(self):

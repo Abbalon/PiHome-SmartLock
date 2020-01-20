@@ -69,6 +69,8 @@ def search_xbee_port() -> str:
     if not route:
         # serial.tools.list_ports.comports()
         route = xbee.encontrar_rutas()
+        if not route:
+            raise Exception("No se ha podido encontrar ninguna ruta donde esté montada ninguna atena XBee")
 
     """En otro caso, ejecutamos un script, que la descubra
     Partiendo de la suposición de que la antena no está previamente montada
