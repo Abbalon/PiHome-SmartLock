@@ -37,8 +37,7 @@ class WatchDog:
             self.monitor_led = LED(config.pin_monitor)
 
         # Configuramos la antena Xbee
-        self.xbee = XBee(config.xbee_port, config.xbee_baudrate)
-        self.remote_xbee = self.xbee.get_remote_Zigbee(config.mac_puerta)
+        self.xbee = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
 
     def wake_up(self):
         """

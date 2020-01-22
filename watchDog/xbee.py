@@ -27,16 +27,20 @@ class XBee(ZigBeeDevice):
     """Clase que representa las antenas xbee que serán la principàl interface de comunicación del dispositivo
     WatchDog"""
 
-    def __init__(self, port_list, baud_rate):
-        """Instanciamos una antena XBeee a partir de un dispositivo ZigBeeDevice"""
+    def __init__(self, port_list, baud_rate, remote_mac=None):
+        """Instanciamos una antena XBeee a partir de un dispositivo ZigBeeDevice
+        @param port_list Lista de puertos en los que se podría encontrar la antena conectada
+        @param baud_rate Frecuencia de trabajo de la antena
+        @param remote_mac [Opcional] Dirección mac a de la antena a la que se conectará"""
 
         """De la lista de posibles puertos a la que pueda estár conectada la antena
         nos conectamos a la primera y lo notificamos"""
         for port in port_list:
             super().__init__(port, baud_rate)
             try:
-                print(super()._get_operating_mode())
                 super().open()
+                if remote_mac is not None:
+                    self.remote_Zigbee = remote_mac
             except XBeeException as e:
                 print("ERROR: No se ha podido conectar con la antena XBee.\t\n" + str(e))
                 super().close()
@@ -44,10 +48,14 @@ class XBee(ZigBeeDevice):
                 print("Conectada la antena del puerto " + port)
                 break
 
-    def get_remote_Zigbee(self, mac) -> RemoteZigBeeDevice:
+    @property
+    def remote_Zigbee(self) -> RemoteZigBeeDevice:
         """
-        Retorna un zigBee remoto asociado a esta antena
-        @param mac: dirección mac del destino
-        @return:
+        @return Retorna el dispositivo remoto al que se encuentra conectado la antena
+        @rtype: RemoteZigBeeDevice
         """
-        return RemoteZigBeeDevice(self, mac)
+        return self.__remote
+
+    @remote_Zigbee.setter
+    def remote_Zigbee(self, mac):
+        self.__remote = RemoteZigBeeDevice(self, mac)
