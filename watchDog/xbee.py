@@ -4,6 +4,8 @@
 import serial.tools.list_ports
 from digi.xbee.devices import ZigBeeDevice, RemoteZigBeeDevice
 from digi.xbee.exception import XBeeException
+from digi.xbee.models.address import XBee64BitAddress, XBee16BitAddress
+from digi.xbee.models.message import XBeeMessage
 
 """Lista de palabras que podría contener un shield con una antena xbee"""
 xbeeAntenaWhiteList = ['FT232R', 'USB', 'UART']
@@ -41,12 +43,19 @@ class XBee(ZigBeeDevice):
                 super().open()
                 if remote_mac is not None:
                     self.remote_Zigbee = remote_mac
+
+                # Nos disponemos a escuchar el medio
+                # super().add_data_received_callback(self.__tratar_entrada)
             except XBeeException as e:
                 print("ERROR: No se ha podido conectar con la antena XBee.\t\n" + str(e))
                 super().close()
             else:
                 print("Conectada la antena del puerto " + port)
                 break
+
+    def __del__(self):
+        print("Voy a dejar de escuchar")
+        super().del_data_received_callback(self.__tratar_entrada)
 
     @property
     def remote_Zigbee(self) -> RemoteZigBeeDevice:
@@ -58,4 +67,34 @@ class XBee(ZigBeeDevice):
 
     @remote_Zigbee.setter
     def remote_Zigbee(self, mac):
-        self.__remote = RemoteZigBeeDevice(self, mac)
+        self.__remote = RemoteZigBeeDevice(self, XBee64BitAddress.from_hex_string(mac))
+
+    def mandar_mensage(self, msg="Hello"):
+        """
+            Manda el mensaje al destinatario por defecto
+        """
+        # Transformamos el mensaje recibido en un string tratable
+        msg = str(msg)
+        # Recuperamos la dirección del dispositivo remoto en formato de 64 bits
+        high = self.remote_Zigbee.get_64bit_addr()
+        # Recuperamos la dirección del dispositivo remoto en 16 bits o la marcamos como desconocida
+        low = self.remote_Zigbee.get_16bit_addr() or XBee16BitAddress.UNKNOWN_ADDRESS
+        try:
+            # Intentamos mandar el mensaje
+            super().send_data_64_16(high, low, msg)
+            # super().send_expl_data(self.remote_Zigbee, msg)
+        except Exception as e:
+            print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
+            # Añadir código para el reintento
+        else:
+            # TODO Borrar esta traza de control
+            print("Mandado mensaje:\t" + msg)
+
+    def __tratar_entrada(self, recived_msg: XBeeMessage):
+        """
+            Tratamos la información que recibamos
+        @param recived_msg:
+        """
+        msg = recived_msg.data.decode("utf8")
+        print(msg)
+        super().close()

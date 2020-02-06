@@ -10,6 +10,8 @@ from typing import List, Union
 
 from watchDog import xbee
 
+sufixMySQL = '.mysql'
+
 
 def read_config(cfg_files) -> ConfigParser:
     """
@@ -70,7 +72,7 @@ def search_xbee_port() -> str:
         # serial.tools.list_ports.comports()
         route = xbee.encontrar_rutas()
         if not route:
-            raise Exception("No se ha podido encontrar ninguna ruta donde esté montada ninguna atena XBee")
+            raise Exception("No se ha podido encontrar ninguna ruta donde esté montada ninguna antena XBee")
 
     """En otro caso, ejecutamos un script, que la descubra
     Partiendo de la suposición de que la antena no está previamente montada
@@ -119,10 +121,10 @@ if parameters.__len__() > 1:
     remote_host = parameters.get('remote', 'host')  # Configurado en local.ini
 
     # proceed to point everything at the 'branched' resources
-    dbUrl = parameters.get(env + '.mysql', 'dbUrl')
-    dbUser = parameters.get(env + '.mysql', 'dbUser')
-    dbPwd = parameters.get(env + '.mysql', 'dbPwd')
-    dbName = parameters.get(env + '.mysql', 'dbName')
+    dbUrl = parameters.get(env + sufixMySQL, 'dbUrl')
+    dbUser = parameters.get(env + sufixMySQL, 'dbUser')
+    dbPwd = parameters.get(env + sufixMySQL, 'dbPwd')
+    dbName = parameters.get(env + sufixMySQL, 'dbName')
 
     # global values
     __project = parameters.get('global', '__project__')

@@ -18,7 +18,8 @@ def get_parser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-R', '--remote', dest="remote",
-                        help="Defino que tipo de ejecución se va a realizar, remota o local, True o False, respectivamente",
+                        help="Defino que tipo de ejecución se va a realizar, remota o local, True o False, "
+                             "respectivamente",
                         default=config.remote)
     return parser
 

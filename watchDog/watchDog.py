@@ -11,6 +11,7 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 import config
 from .xbee import XBee
 
+APAGAR = "SLEEP"
 
 class WatchDog:
     """Representa el dispositivo que regulará el control de acceso"""
@@ -38,6 +39,7 @@ class WatchDog:
 
         # Configuramos la antena Xbee
         self.xbee = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
+        self.__im_active = True
 
     def wake_up(self):
         """
@@ -46,12 +48,17 @@ class WatchDog:
         """
         print("Empezamos")
 
+        msg_pool = []
+        while self.__im_active:
+            self.merodear(msg_pool)
+
         for x in range(5):
             self.ok_led.blink(1, 1, 5)
             self.warn_led.blink(1, 1, 5)
             self.error_led.blink(1, 1, 5)
             self.monitor_led.blink(1, 1, 5)
             print(self.servo.value)
+            self.xbee.mandar_mensage(self.servo.value)
             self.servo.min()
             print(self.servo.value)
             sleep(5)
@@ -63,8 +70,22 @@ class WatchDog:
 
         print("et voila")
 
+    def merodear(self, msg_pool: list):
+        """Tratamos la información que recibamos
+           @param msg_pool:
+        """
+        recived_order = self.xbee.read_data()
+        if recived_order is not None:
+            msg = recived_order.data.decode("utf8")
+            if msg is APAGAR:
+                self.__sleep()
+
+    def __sleep(self):
+        self.__im_active = False
+        print("VAMOS!!!!")
+
     def __del__(self):
-        """Cerramos los elementos que podría ser peligrosos que se quedasen prendidos"""
+        """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
         self.servo.close()
         self.xbee.close()
         print("c'est fini de la mate")
