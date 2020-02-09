@@ -50,7 +50,8 @@ class XBee(ZigBeeDevice):
                 print("ERROR: No se ha podido conectar con la antena XBee.\t\n" + str(e))
                 super().close()
             else:
-                print("Conectada la antena del puerto " + port)
+                antena = str(super().get_node_id() + "(" + str(super().get_64bit_addr()) + ")")
+                print("Conectada la antena '" + antena + "' al puerto " + port)
                 break
 
     def __del__(self):
