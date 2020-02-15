@@ -41,6 +41,8 @@ def read_config(cfg_files) -> ConfigParser:
                 print("\tExtrayendo configuración del fichero:\t" + cfg_file)
 
         return config_properties
+    else:
+        raise ValueError("No se han podido tratar los ficheros.", cfg_files)
 
 
 def ls_file(ruta=getcwd()) -> List[Union[bytes, str]]:
