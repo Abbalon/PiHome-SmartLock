@@ -44,7 +44,7 @@ def read_config(cfg_files) -> ConfigParser:
                 config_properties.read(cfg_file)
                 print("\tExtrayendo configuración del fichero:\t" + cfg_file)
             else:
-                raise FileNotFoundError("No se ha posido encontrar el fichero", cfg_file, os.path)
+                raise FileNotFoundError("No se ha posido encontrar el fichero", cfg_file, os.listdir)
 
         return config_properties
     else:
@@ -100,7 +100,7 @@ def search_xbee_port() -> str:
     return route
 
 
-ls_file()
+print(ls_file())
 
 # merge all into one config dictionary
 parameters = read_config(['env.ini', 'local.ini'])
