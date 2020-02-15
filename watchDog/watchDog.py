@@ -19,7 +19,10 @@ class WatchDog:
 
     def __init__(self, remote):
 
+        print("Soy remoto?: " + remote)
+
         if remote:
+            assert (config.remote_host is not None), "No se ha encontrado la dierección remota donde ejecutarse"
             print("Cargando configuración para ejecución en remoto.\n")
             factory = PiGPIOFactory(host=config.remote_host)
             # Seteamos el pin de datos del servo  un puerto PWM
