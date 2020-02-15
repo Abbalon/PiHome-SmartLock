@@ -22,6 +22,7 @@ class WatchDog:
         print("Soy remoto?: " + remote)
 
         if remote:
+            print(config.remote_host)
             assert (config.remote_host is not None), "No se ha encontrado la dierección remota donde ejecutarse"
             print("Cargando configuración para ejecución en remoto.\n")
             factory = PiGPIOFactory(host=config.remote_host)
