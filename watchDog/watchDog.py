@@ -19,9 +19,8 @@ class WatchDog:
 
     def __init__(self, remote):
 
-        print("WatchDog.__init__() + " + str([param for param in config.parameters.values()]))
-
         if remote:
+            print("Cargando configuración para ejecución en remoto.\n")
             factory = PiGPIOFactory(host=config.remote_host)
             # Seteamos el pin de datos del servo  un puerto PWM
             self.servo = Servo(config.pin_servo, pin_factory=factory)
@@ -31,6 +30,7 @@ class WatchDog:
             self.error_led = LED(config.pin_error, pin_factory=factory)
             self.monitor_led = LED(config.pin_monitor, pin_factory=factory)
         else:
+            print("Cargando configuración para ejecución en local.\n")
             # Seteamos el pin de datos del servo  un puerto PWM
             print("Servo pin:\t" + str(config.pin_servo))
             self.servo = Servo(config.pin_servo)

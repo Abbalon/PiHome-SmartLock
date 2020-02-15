@@ -145,6 +145,7 @@ if parameters.__len__() > 1:
     pin_monitor = parameters.get('pin', 'monitor')
     pin_success = parameters.get('pin', 'success')
     pin_servo = parameters.get('pin', 'servo')
+    print("Pin Servo: " + pin_servo)
 
     # Info del xbee
     xbee_baudrate = parameters.get('xbee', 'baudrate')
