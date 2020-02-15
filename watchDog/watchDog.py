@@ -19,6 +19,8 @@ class WatchDog:
 
     def __init__(self, remote):
 
+        print("WatchDog.__init__() + " + str(config))
+
         if remote:
             factory = PiGPIOFactory(host=config.remote_host)
             # Seteamos el pin de datos del servo  un puerto PWM
