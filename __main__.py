@@ -33,10 +33,6 @@ def main(args=None):
             None to use sys.argv.
     """
 
-    # Esperamos a que se haya terminado de cargar los datos de la configuración
-    while not config.loaded:
-        continue
-
     assert (config.env is not None), "No se ha podido recuperar la información de configuración"
 
     parser = get_parser()
@@ -47,4 +43,7 @@ def main(args=None):
 
 
 if __name__ == "__main__":
+    # Esperamos a que se haya terminado de cargar los datos de la configuración
+    while not config.loaded:
+        continue
     main()

@@ -27,6 +27,7 @@ def read_config(cfg_files) -> ConfigParser:
     assert (cfg_files is not None), "Ups, no se ha podido encontrar nigún fichero de configuración."
 
     print("Leyendo configuración ...")
+    print("Ficheros a tratar:\t" + str(cfg_files))
 
     if cfg_files is not None:
         config_properties = ConfigParser()
@@ -157,5 +158,7 @@ if parameters.__len__() > 1:
     mac_puerta = parameters.get('xbee.mac', 'puerta')
     # Dirección mac del dispositivo que gestionará los periféricos
     mac_router = parameters.get('xbee.mac', 'router')
+
+    print("Configuración recuperada correctamente.")
 
     loaded = True
