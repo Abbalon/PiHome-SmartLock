@@ -30,7 +30,7 @@ class WatchDog:
             self.monitor_led = LED(config.pin_monitor, pin_factory=factory)
         else:
             # Seteamos el pin de datos del servo  un puerto PWM
-            print("Servo pin:\t" + config.pin_servo)
+            print("Servo pin:\t" + str(config.pin_servo))
             self.servo = Servo(config.pin_servo)
             # Seteo de los pines
             self.ok_led = LED(config.pin_success)
