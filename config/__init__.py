@@ -22,8 +22,12 @@ def read_config(cfg_files) -> ConfigParser:
     @return:
     @rtype: ConfigParser
     """
+    assert (cfg_files is not None), "Ups, no se ha podido encontrar nigún fichero de configuración."
+
     if cfg_files is not None:
         config_properties = ConfigParser()
+        if config_properties is None:
+            raise ValueError("No se han escontrado parametros de configuración", cfg_files)
 
         # merges all files into a single config
         for i, cfg_file in enumerate(cfg_files):

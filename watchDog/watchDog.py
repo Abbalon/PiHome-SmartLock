@@ -19,7 +19,7 @@ class WatchDog:
 
     def __init__(self, remote):
 
-        print("WatchDog.__init__() + " + str(config))
+        print("WatchDog.__init__() + " + str(config.parameters.values()))
 
         if remote:
             factory = PiGPIOFactory(host=config.remote_host)
