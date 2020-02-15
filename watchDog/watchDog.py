@@ -18,7 +18,7 @@ class WatchDog:
     """Representa el dispositivo que regulará el control de acceso"""
 
     def __init__(self, remote):
-        print("Inicializando WatchDog\n\tModo Local:\t" + (remote == 'False'))
+        print("Inicializando WatchDog\n\tModo Local:\t" + str((remote == 'False')))
         try:
             if remote and remote == 'True':
                 assert config.remote_host, "No se ha encontrado la dirección remota donde ejecutarse"
