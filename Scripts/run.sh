@@ -1,3 +1,4 @@
 #!/bin/bash
 #Script que ejecuta el código de la puerta en local
-python3 ~/Dev/Zero-Project/__main__.py -R False
+cd ~/Dev/Zero-Project || { echo "No se ha encontrado la ruta"; exit 1;}
+python3 __main__.py -R False
