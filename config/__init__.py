@@ -36,6 +36,7 @@ def read_config(cfg_files) -> ConfigParser:
         for i, cfg_file in enumerate(cfg_files):
             if os.path.exists(cfg_file):
                 config_properties.read(cfg_file)
+                print("\tExtrayendo configuración del fichero:\t" + cfg_file)
 
         return config_properties
 

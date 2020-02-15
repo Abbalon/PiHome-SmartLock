@@ -21,7 +21,7 @@ class WatchDog:
 
         print("Soy remoto?: " + remote)
 
-        if remote and remote is True:
+        if remote and remote == 'True':
             print(config.remote_host)
             assert config.remote_host, "No se ha encontrado la dirección remota donde ejecutarse"
             print("Cargando configuración para ejecución en remoto.\n")
