@@ -14,6 +14,7 @@ sufixMySQL = '.mysql'
 
 loaded = False
 
+
 def read_config(cfg_files) -> ConfigParser:
     """
     Lee los parámetros fijados en los ficheros de configuración

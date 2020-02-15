@@ -6,8 +6,9 @@ caso contrário, pintará el led rojo"""
 
 # Gestionamos el tipo de ejecución que se va a realizar
 import argparse
-
 # Cargamos la configuración
+import sys
+
 import config
 from watchDog.watchDog import WatchDog
 
@@ -42,4 +43,8 @@ def main(args=None):
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Proceso abortado por el usuario")
+        sys.exit(0)

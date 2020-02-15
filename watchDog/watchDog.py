@@ -35,6 +35,7 @@ class WatchDog:
                 print("Cargando configuración para ejecución en local.\n")
                 # Seteamos el pin de datos del servo  un puerto PWM
                 self.servo = Servo(config.pin_servo)
+                print("Servo Ok")
                 # Seteo de los pines
                 self.ok_led = LED(config.pin_success)
                 self.warn_led = LED(config.pin_warn)
@@ -45,7 +46,7 @@ class WatchDog:
             self.xbee = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
             self.__im_active = True
 
-            print("Inicialización de WacthDog correcta")
+            print("Inicialización de WacthDog correcta\n")
 
         except Exception as e:
             print(str(e))
