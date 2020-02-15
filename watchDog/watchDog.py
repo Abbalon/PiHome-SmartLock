@@ -23,7 +23,8 @@ class WatchDog:
 
         if remote:
             print(config.remote_host)
-            assert (config.remote_host is not None), "No se ha encontrado la dierección remota donde ejecutarse"
+            assert (config.remote_host is not None), "No se ha encontrado la dirección remota donde ejecutarse"
+            assert config.remote_host, "No se ha encontrado la dirección remota donde ejecutarse"
             print("Cargando configuración para ejecución en remoto.\n")
             factory = PiGPIOFactory(host=config.remote_host)
             # Seteamos el pin de datos del servo  un puerto PWM
@@ -93,6 +94,10 @@ class WatchDog:
 
     def __del__(self):
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
-        self.servo.close()
-        self.xbee.close()
+        if not self.servo.closed:
+            self.servo.close()
+
+        if self.xbee.is_open():
+            self.xbee.close()
+
         print("Stapleton se ha vuelto a dormir")
