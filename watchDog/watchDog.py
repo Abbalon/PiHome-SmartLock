@@ -47,11 +47,11 @@ class WatchDog:
         Hablilitamos la funcionalidad de la puerta
         :return:
         """
-        print("Empezamos")
+        print("Stapleton se ha despertado.")
 
         msg_pool = []
-        while self.__im_active:
-            self.merodear(msg_pool)
+        # while self.__im_active:
+        #     self.merodear(msg_pool)
 
         for x in range(5):
             self.ok_led.blink(1, 1, 5)
@@ -89,4 +89,4 @@ class WatchDog:
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
         self.servo.close()
         self.xbee.close()
-        print("c'est fini de la mate")
+        print("Stapleton se ha vuelto a dormir")
