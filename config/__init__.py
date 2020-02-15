@@ -22,7 +22,10 @@ def read_config(cfg_files) -> ConfigParser:
     @return:
     @rtype: ConfigParser
     """
+
     assert (cfg_files is not None), "Ups, no se ha podido encontrar nigún fichero de configuración."
+
+    print("Leyendo configuración ...")
 
     if cfg_files is not None:
         config_properties = ConfigParser()
