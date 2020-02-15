@@ -43,6 +43,8 @@ def read_config(cfg_files) -> ConfigParser:
             if os.path.exists(cfg_file):
                 config_properties.read(cfg_file)
                 print("\tExtrayendo configuración del fichero:\t" + cfg_file)
+            else:
+                raise FileNotFoundError("No se ha posido encontrar el fichero", cfg_file, os.path)
 
         return config_properties
     else:
