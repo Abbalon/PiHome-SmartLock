@@ -12,6 +12,7 @@ from watchDog import xbee
 
 sufixMySQL = '.mysql'
 
+loaded = False
 
 def read_config(cfg_files) -> ConfigParser:
     """
@@ -156,3 +157,5 @@ if parameters.__len__() > 1:
     mac_puerta = parameters.get('xbee.mac', 'puerta')
     # Dirección mac del dispositivo que gestionará los periféricos
     mac_router = parameters.get('xbee.mac', 'router')
+
+    loaded = True

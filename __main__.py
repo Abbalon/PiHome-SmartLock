@@ -34,7 +34,7 @@ def main(args=None):
     """
 
     # Esperamos a que se haya terminado de cargar los datos de la configuración
-    while not config:
+    while not config.loaded:
         continue
 
     assert (config.env is not None), "No se ha podido recuperar la información de configuración"
