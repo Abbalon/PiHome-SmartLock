@@ -21,9 +21,8 @@ class WatchDog:
 
         print("Soy remoto?: " + remote)
 
-        if remote:
+        if remote and remote is True:
             print(config.remote_host)
-            assert (config.remote_host is not None), "No se ha encontrado la dirección remota donde ejecutarse"
             assert config.remote_host, "No se ha encontrado la dirección remota donde ejecutarse"
             print("Cargando configuración para ejecución en remoto.\n")
             factory = PiGPIOFactory(host=config.remote_host)
@@ -94,10 +93,10 @@ class WatchDog:
 
     def __del__(self):
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
-        if not self.servo.closed:
+        if self.servo and not self.servo.closed:
             self.servo.close()
 
-        if self.xbee.is_open():
+        if self.xbee and self.xbee.is_open():
             self.xbee.close()
 
         print("Stapleton se ha vuelto a dormir")
