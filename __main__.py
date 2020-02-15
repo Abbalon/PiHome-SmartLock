@@ -37,13 +37,9 @@ def main(args=None):
 
     parser = get_parser()
     args = parser.parse_args(args)
-    print("Inicializando Stapleton: " + str(args))
     stapleton = WatchDog(remote=args.remote)
     stapleton.wake_up()
 
 
 if __name__ == "__main__":
-    # Esperamos a que se haya terminado de cargar los datos de la configuración
-    while not config.loaded:
-        continue
     main()

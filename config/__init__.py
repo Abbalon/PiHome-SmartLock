@@ -100,8 +100,6 @@ def search_xbee_port() -> str:
     return route
 
 
-print(ls_file())
-
 # merge all into one config dictionary
 parameters = read_config(['env.ini', 'local.ini'])
 
@@ -156,7 +154,6 @@ if parameters.__len__() > 1:
     pin_monitor = parameters.get('pin', 'monitor')
     pin_success = parameters.get('pin', 'success')
     pin_servo = parameters.get('pin', 'servo')
-    print("Pin Servo: " + pin_servo)
 
     # Info del xbee
     xbee_baudrate = parameters.get('xbee', 'baudrate')
@@ -167,6 +164,6 @@ if parameters.__len__() > 1:
     # Dirección mac del dispositivo que gestionará los periféricos
     mac_router = parameters.get('xbee.mac', 'router')
 
-    print("Configuración recuperada correctamente.")
+    print("Configuración recuperada correctamente.\n")
 
     loaded = True
