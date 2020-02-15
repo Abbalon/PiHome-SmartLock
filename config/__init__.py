@@ -30,12 +30,16 @@ def read_config(cfg_files) -> ConfigParser:
     print("Ficheros a tratar:\t" + str(cfg_files))
 
     if cfg_files is not None:
+        print("Se han recibido los ficheros")
         config_properties = ConfigParser()
         if config_properties is None:
             raise ValueError("No se han escontrado parametros de configuración", cfg_files)
+        else:
+            print("Configurador de propiedades cargado")
 
         # merges all files into a single config
         for i, cfg_file in enumerate(cfg_files):
+            print("Preparandose para tratar el fichero:\t" + cfg_file)
             if os.path.exists(cfg_file):
                 config_properties.read(cfg_file)
                 print("\tExtrayendo configuración del fichero:\t" + cfg_file)
