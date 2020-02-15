@@ -33,6 +33,8 @@ def main(args=None):
             None to use sys.argv.
     """
 
+    assert (config.env is not None), "No se ha podido recuperar la información de configuración"
+
     parser = get_parser()
     args = parser.parse_args(args)
     print("Inicializando Stapleton: " + str(args))
