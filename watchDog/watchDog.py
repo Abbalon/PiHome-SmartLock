@@ -5,10 +5,11 @@ Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada co
 caso contrário, pintará el led rojo"""
 from time import sleep
 
-from gpiozero import Servo, LED
+from gpiozero import LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 import config
+from .servo import Cerradura
 from .xbee import XBee
 
 APAGAR = "SLEEP"
@@ -25,7 +26,7 @@ class WatchDog:
                 print("Cargando configuración para ejecución en remoto.\n")
                 factory = PiGPIOFactory(host=config.remote_host)
                 # Seteamos el pin de datos del servo  un puerto PWM
-                self.servo = Servo(config.pin_servo, pin_factory=factory)
+                self.servo = Cerradura(config.pin_servo, pin_factory=factory)
                 # Seteo de los pines
                 self.ok_led = LED(config.pin_success, pin_factory=factory)
                 self.warn_led = LED(config.pin_warn, pin_factory=factory)
@@ -34,7 +35,7 @@ class WatchDog:
             else:
                 print("Cargando configuración para ejecución en local.\n")
                 # Seteamos el pin de datos del servo  un puerto PWM
-                self.servo = Servo(config.pin_servo)
+                self.servo = Cerradura(config.pin_servo)
                 print("Servo Ok")
                 # Seteo de los pines
                 self.ok_led = LED(config.pin_success)
@@ -64,19 +65,13 @@ class WatchDog:
         #     self.merodear(msg_pool)
 
         for x in range(5):
+            self.servo.abrir()
             self.ok_led.blink(1, 1, 5)
             self.warn_led.blink(1, 1, 5)
             self.error_led.blink(1, 1, 5)
             self.monitor_led.blink(1, 1, 5)
-            print(self.servo.value)
-            self.xbee.mandar_mensage(self.servo.value)
-            self.servo.min()
-            print(self.servo.value)
             sleep(5)
-            self.servo.mid()
-            sleep(5)
-            self.servo.max()
-            sleep(5)
+            self.servo.cerrar()
             print(x)
 
         print("et voila")
@@ -97,8 +92,11 @@ class WatchDog:
 
     def __del__(self):
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
-        if self.servo and not self.servo.closed:
-            self.servo.close()
+        # Dejamos 5 seg, antes de cerrar tod0, para cerrar las conexiones correctamente
+        sleep(5)
+
+        # if self.servo and not self.servo.closed:
+        #     self.servo.close()
 
         if self.xbee and self.xbee.is_open():
             self.xbee.close()

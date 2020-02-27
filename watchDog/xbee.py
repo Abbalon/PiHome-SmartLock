@@ -27,7 +27,8 @@ def encontrar_rutas() -> []:
 
 class XBee(ZigBeeDevice):
     """Clase que representa las antenas xbee que serán la principàl interface de comunicación del dispositivo
-    WatchDog"""
+    WatchDog
+    @see https://xbplib.readthedocs.io/en/stable/index.html"""
 
     def __init__(self, port_list, baud_rate, remote_mac=None):
         """Instanciamos una antena XBeee a partir de un dispositivo ZigBeeDevice
