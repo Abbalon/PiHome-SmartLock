@@ -32,7 +32,8 @@ class Cerradura(AngularServo):
 
     def abrir(self):
         """
-        Este método gira el elemento que represente la cerradura hasta una posición que permita mantener la puerta desbloqueda
+        Este método gira el elemento que represente la cerradura hasta una posición que permita mantener la puerta
+        desbloqueda
         """
         self.max()
         sleep(SLEEP_TIME)
