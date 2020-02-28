@@ -45,7 +45,7 @@ class XBee(ZigBeeDevice):
         for port in port_list:
             try:
                 super().__init__(port, baud_rate)
-            except Exception e:
+            except Exception as e:
                 print("Encontrado un error al inicializar el dispositivo ZigBeeDevice")
                 print(str(e))
                 raise e
