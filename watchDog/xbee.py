@@ -36,6 +36,7 @@ class XBee(ZigBeeDevice):
         @param baud_rate Frecuencia de trabajo de la antena
         @param remote_mac [Opcional] Dirección mac a de la antena a la que se conectará"""
 
+        print("Creando la antena")
         """De la lista de posibles puertos a la que pueda estár conectada la antena
         nos conectamos a la primera y lo notificamos"""
         for port in port_list:

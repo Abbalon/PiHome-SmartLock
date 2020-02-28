@@ -19,9 +19,16 @@ class Cerradura(AngularServo):
     """
 
     def __init__(self, pin=None, pin_factory=None):
+        print("Creando la cerradura")
         super(Cerradura, self).__init__(pin, 90, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH, SPEED,
                                         pin_factory=pin_factory)
+        sleep(1)
+        self.abrir()
+        sleep(1)
+        self.cerrar()
+        sleep(1)
         self.angle = None
+        print("Cerradura correcta")
 
     def abrir(self):
         """

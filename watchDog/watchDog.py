@@ -36,7 +36,6 @@ class WatchDog:
                 print("Cargando configuración para ejecución en local.\n")
                 # Seteamos el pin de datos del servo  un puerto PWM
                 self.servo = Cerradura(config.pin_servo)
-                print("Servo Ok")
                 # Seteo de los pines
                 self.ok_led = LED(config.pin_success)
                 self.warn_led = LED(config.pin_warn)
