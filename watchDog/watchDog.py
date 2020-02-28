@@ -94,7 +94,7 @@ class WatchDog:
             self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
             self.__im_active = True
 
-            print("Inicialización de WacthDog correcta\n")
+            print("\n\nInicialización de WacthDog correcta\n")
 
         except Exception as e:
             print(str(e))

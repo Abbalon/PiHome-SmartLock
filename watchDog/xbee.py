@@ -39,6 +39,9 @@ class XBee(ZigBeeDevice):
         print("Creando la antena")
         """De la lista de posibles puertos a la que pueda estár conectada la antena
         nos conectamos a la primera y lo notificamos"""
+        print("Puertos encontrados: " + str(port_list))
+        print("Frecuencia de trabajo: " + str(baud_rate))
+        print("Enlace remoto: " + str(remote_mac))
         for port in port_list:
             super().__init__(port, baud_rate)
             try:
@@ -53,7 +56,7 @@ class XBee(ZigBeeDevice):
                 super().close()
             else:
                 antena = str(super().get_node_id() + "(" + str(super().get_64bit_addr()) + ")")
-                print("Conectada la antena '" + antena + "' al puerto " + port)
+                print("Conectada la antena '" + antena + "' al puerto " + port + "\n")
                 break
 
     def __del__(self):

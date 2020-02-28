@@ -28,7 +28,7 @@ class Cerradura(AngularServo):
         self.cerrar()
         sleep(1)
         self.angle = None
-        print("Cerradura correcta")
+        print("Cerradura correcta\n")
 
     def abrir(self):
         """
