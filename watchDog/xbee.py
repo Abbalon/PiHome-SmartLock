@@ -43,7 +43,13 @@ class XBee(ZigBeeDevice):
         print("Frecuencia de trabajo: " + str(baud_rate))
         print("Enlace remoto: " + str(remote_mac))
         for port in port_list:
-            super().__init__(port, baud_rate)
+            try:
+                super().__init__(port, baud_rate)
+            except Exception e:
+                print("Encontrado un error al inicializar el dispositivo ZigBeeDevice")
+                print(str(e))
+                raise e
+
             try:
                 super().open()
                 if remote_mac is not None:
