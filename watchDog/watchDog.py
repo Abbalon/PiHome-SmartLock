@@ -142,11 +142,17 @@ class WatchDog:
         # Dejamos 5 seg, antes de cerrar tod0, para cerrar las conexiones correctamente
         sleep(5)
 
-        # if self.cerradura and not self.cerradura.closed:
-        #     self.cerradura.close()
+        try:
+            if self.cerradura and not self.cerradura.closed:
+                self.cerradura.close()
+        except AttributeError:
+            print("Parece que no se había creado la antena")
 
-        if self.antena and self.antena.is_open():
-            self.antena.close()
+        try:
+            if self.antena and self.antena.is_open():
+                self.antena.close()
+        except AttributeError:
+            print("Parece que no se había creado la antena")
 
         print("Stapleton se ha vuelto a dormir")
 
