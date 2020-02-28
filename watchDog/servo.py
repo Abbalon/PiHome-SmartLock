@@ -47,5 +47,4 @@ class Cerradura(AngularServo):
         self.angle = None
 
     def __del__(self):
-        if self.is_active:
-            self.close()
+        self.close()
