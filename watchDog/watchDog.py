@@ -146,7 +146,7 @@ class WatchDog:
             if self.cerradura and not self.cerradura.closed:
                 self.cerradura.close()
         except AttributeError:
-            print("Parece que no se había creado la antena")
+            print("Parece que no se había creado la cerradura")
 
         try:
             if self.antena and self.antena.is_open():
