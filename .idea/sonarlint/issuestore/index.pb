@@ -782,8 +782,6 @@ Hvenv/lib/python3.6/site-packages/gpio-0.3.0-py3.6.egg-info/top_level.txt,7/3/7
 Nvenv/lib/python3.6/site-packages/gpio-0.3.0-py3.6.egg-info/installed-files.txt,0/b/0be73556e96fbfb22c907094fd5f95bdcc750316
 
 Ovenv/lib/python3.6/site-packages/gpio-0.3.0-py3.6.egg-info/dependency_links.txt,9/5/95944e4d35e306b16c80641a094de99767a8d998
-?
-venv/pyvenv.cfg,b/0/b0e04816a9971064291cd324e57037faa4a05306
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 B
