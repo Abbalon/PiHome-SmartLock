@@ -68,7 +68,10 @@ class XBee(ZigBeeDevice):
 
     def __del__(self):
         print("Voy a dejar de escuchar")
-        super().del_data_received_callback(self.__tratar_entrada)
+        try:
+            super().del_data_received_callback(self.__tratar_entrada)
+        except Exception as e:
+            print("ERROR: No se ha cerrado la conexíón de la antena\t\n" + str(e))
 
     @property
     def remote_Zigbee(self) -> RemoteZigBeeDevice:
