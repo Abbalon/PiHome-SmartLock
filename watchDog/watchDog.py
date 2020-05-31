@@ -5,6 +5,7 @@ Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada co
 caso contrário, pintará el led rojo"""
 from time import sleep
 
+from digi.xbee.exception import XBeeException
 from gpiozero import LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
@@ -127,13 +128,20 @@ class WatchDog:
         """Tratamos la información que recibamos
            @param msg_pool:
         """
-        recived_order = self.antena.read_data()
-        if recived_order is not None:
-            msg = recived_order.data.decode("utf8")
-            if str(msg) == APAGAR:
-                self.__sleep()
-            else:
-                print(msg)
+        try:
+            if self.antena.is_open:
+                recived_order = self.antena.read_data()
+
+                if recived_order is not None:
+                    msg = recived_order.data.decode("utf8")
+
+                    if msg is APAGAR:
+                        self.__sleep()
+                    else:
+                        print(msg)
+
+        except XBeeException as e:
+            print("WARN: Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))
 
     def __sleep(self):
         self.__im_active = False
