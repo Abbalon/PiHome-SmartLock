@@ -94,7 +94,7 @@ class WatchDog:
             self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
             self.__im_active = True
 
-            print("\n\nInicialización de WacthDog correcta\n")
+            print("Inicialización de WacthDog correcta\n")
 
         except Exception as e:
             print(str(e))
@@ -108,8 +108,8 @@ class WatchDog:
         print("Stapleton se ha despertado.")
 
         msg_pool = []
-        # while self.__im_active:
-        #     self.merodear(msg_pool)
+        while self.__im_active:
+            self.merodear(msg_pool)
 
         for x in range(5):
             self.cerradura.abrir()
@@ -132,6 +132,8 @@ class WatchDog:
             msg = recived_order.data.decode("utf8")
             if msg is APAGAR:
                 self.__sleep()
+            else:
+                print(msg)
 
     def __sleep(self):
         self.__im_active = False

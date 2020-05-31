@@ -59,11 +59,11 @@ class XBee(ZigBeeDevice):
                 # Nos disponemos a escuchar el medio
                 # super().add_data_received_callback(self.__tratar_entrada)
             except XBeeException as e:
-                print("ERROR: No se ha podido conectar con la antena XBee.\t\n" + str(e))
+                print("ERROR: No se ha podido conectar con la antena XBee.\n\t" + str(e))
                 super().close()
             else:
                 antena = str(super().get_node_id() + "(" + str(super().get_64bit_addr()) + ")")
-                print("Conectada la antena '" + antena + "' al puerto " + port + "\n")
+                print("\tConectada la antena '" + antena + "' al puerto " + port + "\n")
                 break
 
     def __del__(self):
@@ -71,7 +71,7 @@ class XBee(ZigBeeDevice):
         try:
             super().del_data_received_callback(self.__tratar_entrada)
         except Exception as e:
-            print("ERROR: No se ha cerrado la conexíón de la antena\t\n" + str(e))
+            print("ERROR: No se ha cerrado la conexíón de la antena\n\t" + str(e))
 
     @property
     def remote_Zigbee(self) -> RemoteZigBeeDevice:
