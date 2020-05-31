@@ -130,7 +130,7 @@ class WatchDog:
         recived_order = self.antena.read_data()
         if recived_order is not None:
             msg = recived_order.data.decode("utf8")
-            if msg == APAGAR:
+            if str(msg) == APAGAR:
                 self.__sleep()
             else:
                 print(msg)
