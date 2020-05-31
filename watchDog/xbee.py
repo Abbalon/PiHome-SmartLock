@@ -8,7 +8,7 @@ from digi.xbee.models.address import XBee64BitAddress, XBee16BitAddress
 from digi.xbee.models.message import XBeeMessage
 
 """Lista de palabras que podría contener un shield con una antena xbee"""
-xbeeAntenaWhiteList = ['FT232R', 'UART', 'ttyAMA0']
+xbeeAntenaWhiteList = ['FT232R', 'UART']
 
 
 def encontrar_rutas() -> []:
