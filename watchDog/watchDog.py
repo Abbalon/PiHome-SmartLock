@@ -4,6 +4,7 @@ El sistema leera una tarjeta RFID, la cotejará con el sistema central, mandando
 Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada con un serbo, y pintará el LED verde, en
 caso contrário, pintará el led rojo"""
 from time import sleep
+from typing import List
 
 from digi.xbee.exception import XBeeException
 from gpiozero import LED
@@ -14,6 +15,7 @@ from .servo import Cerradura
 from .xbee import XBee
 
 APAGAR = "SLEEP"
+CMD = "CMD"
 
 
 class WatchDog:
@@ -133,10 +135,10 @@ class WatchDog:
                 recived_order = self.antena.read_data()
 
                 if recived_order is not None:
-                    msg = recived_order.data.decode("utf8")
+                    msg = str(recived_order.data.decode("utf8"))
 
-                    if msg is APAGAR:
-                        self.__sleep()
+                    if msg.startswith(CMD):
+                        self.ejecutar_accion_progamada(msg.split(':'))
                     else:
                         print(msg)
 
@@ -189,3 +191,12 @@ class WatchDog:
     @antena.setter
     def antena(self, value):
         self._antena = value
+
+    def ejecutar_accion_progamada(self, order_list: List[str]):
+        """
+            Con este método se encapsulan todas las acciones previstas para las ordenes recibidas
+        """
+        # Comprobamos que el primer parámetro sea un comando
+        order: str = str(order_list.pop())
+        if order == APAGAR:
+            self.__sleep()
