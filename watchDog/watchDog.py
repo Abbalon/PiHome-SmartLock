@@ -200,3 +200,7 @@ class WatchDog:
         order: str = str(order_list.pop())
         if order == APAGAR:
             self.__sleep()
+        if order == "ABRIR":
+            self.cerradura.abrir()
+        if order == "CERRAR":
+            self.cerradura.cerrar()
