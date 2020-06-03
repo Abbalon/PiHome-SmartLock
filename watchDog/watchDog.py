@@ -136,10 +136,10 @@ class WatchDog:
 
                 if recived_order is not None:
                     msg = str(recived_order.data.decode("utf8"))
-
                     if msg.startswith(CMD):
                         self.ejecutar_accion_progamada(msg.split(':'))
                     else:
+                        self.monitor_led.blink(0.2, 0.2, 3)
                         print(msg)
 
         except XBeeException as e:
@@ -199,8 +199,11 @@ class WatchDog:
         # Comprobamos que el primer parámetro sea un comando
         order: str = str(order_list.pop())
         if order == APAGAR:
+            self.warn_led.blink()
             self.__sleep()
         if order == "ABRIR":
+            self.ok_led.blink(0.2, 0.2, 2)
             self.cerradura.abrir()
         if order == "CERRAR":
+            self.ok_led.blink(0.2, 0.2, 2)
             self.cerradura.cerrar()
