@@ -1,4 +1,4 @@
-#!venv/bin/python3.6
+#!env/bin/python3.8
 """Clase que carga la configuración del proyecto"""
 
 # a simple function to read an array of configuration files into a config object

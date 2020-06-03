@@ -1,4 +1,4 @@
-#!venv/bin/python3.6
+#!env/bin/python3.8
 """Paquete encargado de la gestión y representación de un dispositivo ZigBee/Xbee"""
 
 import serial.tools.list_ports
