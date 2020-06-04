@@ -1,0 +1,8 @@
+#!/home/montbs/Utils/Deb/Zero-Project/venv/bin/python3
+#
+# Call the graphical interface for Epydoc.
+#
+
+from epydoc.gui import gui
+
+gui()
