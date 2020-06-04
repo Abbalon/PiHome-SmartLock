@@ -1,6 +1,6 @@
 #!env/bin/python3.8
 """Código para la gestionar el acceso a un recinto.
-El sistema leera una tarjeta RFID, la cotejará con el sistema central, mandando la id de la tarjeta mediante Zigbee
+El sistema leera una tarjeta MFRC522, la cotejará con el sistema central, mandando la id de la tarjeta mediante Zigbee
 Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada con un serbo, y pintará el LED verde, en
 caso contrário, pintará el led rojo"""
 from time import sleep
@@ -11,6 +11,7 @@ from gpiozero import LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 import config
+from .MFRC522 import MFRC522
 from .servo import Cerradura
 from .xbee import XBee
 
@@ -69,6 +70,14 @@ class WatchDog:
         """
         return self._antena
 
+    @property
+    def reader_tag(self):
+        """
+
+        @return:
+        """
+        return self._reader
+
     def __init__(self, remote):
         print("Inicializando WatchDog\n\tModo Local:\t" + str((remote == 'False')))
         try:
@@ -96,6 +105,9 @@ class WatchDog:
             # Configuramos la antena Xbee
             self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
             self.__im_active = True
+
+            # Configuramos el lector de MFRC522
+            self.reader_tag = MFRC522()
 
             print("Inicialización de WacthDog correcta\n")
 
@@ -130,6 +142,7 @@ class WatchDog:
         """Tratamos la información que recibamos
            @param msg_pool:
         """
+        max_try_reconnect: int = 5
         try:
             if self.antena.is_open:
                 recived_order = self.antena.read_data()
@@ -144,9 +157,21 @@ class WatchDog:
 
         except XBeeException as e:
             print("WARN: Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))
+            for x in range(max_try_reconnect):
+                self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
+                if self.antena.is_open:
+                    break
+
+    def olfatear(self) -> None:
+        """
+            Método mediante el cual se reconocerá el tag presentado
+            @rtype: None
+        """
+        self.reader_tag.oler()
 
     def __sleep(self):
         self.__im_active = False
+        self.apagar_leds()
         print("VAMOS!!!!")
 
     def __del__(self):
@@ -166,6 +191,7 @@ class WatchDog:
         except AttributeError:
             print("Parece que no se había creado la antena")
 
+        self.apagar_leds()
         print("Stapleton se ha vuelto a dormir")
 
     @cerradura.setter
@@ -192,6 +218,10 @@ class WatchDog:
     def antena(self, value):
         self._antena = value
 
+    @reader_tag.setter
+    def reader_tag(self, value):
+        self._reader = value
+
     def ejecutar_accion_progamada(self, order_list: List[str]):
         """
             Con este método se encapsulan todas las acciones previstas para las ordenes recibidas
@@ -207,3 +237,16 @@ class WatchDog:
         if order == "CERRAR":
             self.ok_led.blink(0.2, 0.2, 2)
             self.cerradura.cerrar()
+        if order == "ECHO":
+            status = "Cerradura[" + str(self.cerradura.is_active) + ", " + str(self.cerradura.value) + "]\n"
+            status += "Antena[" + str(self.antena) + "]\n"
+            self.antena.mandar_mensage(status)
+
+    def apagar_leds(self):
+        """
+            Apaga los leds de monitorizace, warning, error y ok
+        """
+        self.monitor_led.off()
+        self.ok_led.off()
+        self.warn_led.off()
+        self.error_led.off()

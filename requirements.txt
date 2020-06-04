@@ -3,3 +3,6 @@ gpiozero
 pigpio
 colorzero
 digi-xbee
+spidev
+epydoc
+mfrc522

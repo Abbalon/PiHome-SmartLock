@@ -70,6 +70,26 @@ SPEED = 20 / 1000  # 20ms corresponde con la frecuencia del SG90
 SLEEP_TIME = 0.2
 ```
 
+## Lector RFID
+Para realizar la identificación del usuario, se empleará un lector del tarjetas RFID. Para esta demostración se empleará
+ el dispositivo RFID-RC522.  
+Para usar un dispositivo de este tipo, es necesario activar la interface de la RPi para SPI, para ello lanzamos el comando:  
+ ~~~bash 
+$ sudo raspi-config
+~~~ 
+Navegamos hasta la opción *5 Interfacing Options* / *P4 SPI*, y aceptamos que queremos usar esa interface.  
+Tras aplicar los cambios, será necesario reiniciar el sistema:
+~~~bash
+$ sudo reboot
+~~~
+Podemos comprobar que se han realizado correctamente los cambios con el comando:
+~~~bash
+$ lsmod | grep spi_bcm2835
+~~~
+Tras lo que, si todo ha ido bien, deberíamos obtener algún resultado.
+
+### RFID-RC522
+
 ## Inicio
 El sistema se arranca ejecutando el *__main__.py* del paquete principal con el argumento adecuado, 
 atendiendo al entrono de desarrollo que se vaya a emplear.
