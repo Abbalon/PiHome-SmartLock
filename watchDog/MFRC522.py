@@ -38,11 +38,9 @@ class MFRC522(object):
             Lee la targeta
         """
         try:
-            while True:
-                print("Hold a tag near the reader")
-                id, text = self.device.read()
+            id, text = self.device.read()
+            if id is not None:
                 print("ID: %s\nText: %s" % (id, text))
-
         except KeyboardInterrupt as ki:
             print("Error: " + str(ki))
             raise
