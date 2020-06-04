@@ -41,7 +41,7 @@ class MFRC522(object):
             # id, text = self.device.read()
             id = self.device.read_id_no_block()
             if id is not None:
-                print("ID: %s\nText: %s" % id)
+                print("ID: %s\n" % id)
         except Exception as ki:
             print("Error: " + str(ki))
             raise
