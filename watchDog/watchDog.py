@@ -155,6 +155,8 @@ class WatchDog:
                         self.monitor_led.blink(0.2, 0.2, 3)
                         print(msg)
 
+            self.olfatear()
+
         except XBeeException as e:
             print("WARN: Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))
             for x in range(max_try_reconnect):

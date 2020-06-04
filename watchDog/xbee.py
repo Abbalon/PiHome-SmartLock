@@ -98,7 +98,6 @@ class XBee(ZigBeeDevice):
         try:
             # Intentamos mandar el mensaje
             super().send_data_64_16(high, low, msg)
-            super().send_data(self.remote_Zigbee, msg)
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
