@@ -7,6 +7,7 @@
 """
 
 # import mfrc522
+from RPi import GPIO
 from mfrc522 import SimpleMFRC522
 
 
@@ -44,3 +45,5 @@ class MFRC522(object):
         except Exception as ki:
             print("Error: " + str(ki))
             raise
+        finally:
+            GPIO.cleanup()
