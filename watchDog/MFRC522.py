@@ -41,6 +41,6 @@ class MFRC522(object):
             id, text = self.device.read()
             if id is not None:
                 print("ID: %s\nText: %s" % (id, text))
-        except KeyboardInterrupt as ki:
+        except Exception as ki:
             print("Error: " + str(ki))
             raise
