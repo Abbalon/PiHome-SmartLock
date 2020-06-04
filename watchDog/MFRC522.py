@@ -7,7 +7,6 @@
 """
 
 # import mfrc522
-from RPi import GPIO
 from mfrc522 import SimpleMFRC522
 
 
@@ -39,11 +38,10 @@ class MFRC522(object):
             Lee la targeta
         """
         try:
-            id, text = self.device.read()
+            # id, text = self.device.read()
+            id = self.device.read_id_no_block()
             if id is not None:
-                print("ID: %s\nText: %s" % (id, text))
+                print("ID: %s\nText: %s" % id)
         except Exception as ki:
             print("Error: " + str(ki))
             raise
-        finally:
-            GPIO.cleanup()
