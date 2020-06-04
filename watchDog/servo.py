@@ -1,4 +1,4 @@
-#!env/bin/python3.8
+#!venv/bin/python
 """Paquete encargado de la gestión y representación de un dispositivo servo, para reducir la carga a la clase
 principal """
 from time import sleep

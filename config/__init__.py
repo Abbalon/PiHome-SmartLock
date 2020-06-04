@@ -1,4 +1,4 @@
-#!env/bin/python3.8
+#!venv/bin/python
 """Paquete que controla los ficheros de configuración del proyecto"""
 
 # Cargamos los datos del fichero de configuración

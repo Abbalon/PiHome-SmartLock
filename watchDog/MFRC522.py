@@ -1,4 +1,4 @@
-#!env/bin/python3.8
+#!venv/bin/python
 """
     Paquete encargado de la gestión y representación de un dispositivo lector de tarjetas MFRC522.
     Como el sistema sobre el que se está desarrollando es una Raspberry Pi Zero, tras activar el controlador del puerto SPI,

@@ -1,4 +1,4 @@
-#!env/bin/python3.8
+#!venv/bin/python
 """Código para la gestionar el acceso a un recinto.
 El sistema leera una tarjeta MFRC522, la cotejará con el sistema central, mandando la id de la tarjeta mediante Zigbee
 Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada con un serbo, y pintará el LED verde, en
