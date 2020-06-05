@@ -38,7 +38,7 @@ class RFID(object):
         try:
             # id, text = self.device.read()
             id = self.device.read_id_no_block()
-            return id
+            return str(id)
         except Exception as ki:
             print("Error: " + str(ki))
             raise

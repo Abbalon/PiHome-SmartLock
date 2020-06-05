@@ -155,6 +155,8 @@ class WatchDog:
                 self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
                 if self.antena.is_open:
                     break
+        except Exception as e:
+            print("ERROR:\t" + str(e))
 
     def escuchar_ordenes(self):
         msg = self.antena.escuchar_medio()
