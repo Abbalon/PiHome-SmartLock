@@ -1,18 +1,16 @@
 #!venv/bin/python
 """
-    Paquete encargado de la gestión y representación de un dispositivo lector de tarjetas MFRC522.
+    Paquete encargado de la gestión y representación de un dispositivo lector de tarjetas RFID.
     Como el sistema sobre el que se está desarrollando es una Raspberry Pi Zero, tras activar el controlador del puerto SPI,
     tenemos que los dos puertos disponibles son: /dev/spidev0.0 (para el ejemplo usaremos el 0 - pin(24) - GPIO8 - SPICS0 ) y /dev/spidev0.1
 
 """
-
-# import mfrc522
 from mfrc522 import SimpleMFRC522
 
 
-class MFRC522(object):
+class RFID(object):
     """
-    Clase que representa el dispositivo lector de tarjetas MFRC522
+    Clase que representa el dispositivo lector de tarjetas RFID
     """
 
     CHANNEL: int = 0
@@ -31,17 +29,27 @@ class MFRC522(object):
         self._device = value
 
     def __init__(self):
-        self._device = SimpleMFRC522()
+        self.device = SimpleMFRC522()
 
-    def oler(self):
+    def leer_tarjeta(self) -> str:
         """
-            Lee la targeta
+            Lee la tarjeta sin bloquear el proceso y retona la id de la misma
         """
         try:
             # id, text = self.device.read()
             id = self.device.read_id_no_block()
-            if id is not None:
-                print("ID: %s\n" % id)
+            return id
+        except Exception as ki:
+            print("Error: " + str(ki))
+            raise
+
+    def esperar_hasta_leer_tarjeta(self) -> str:
+        """
+            Lee la tarjeta sin bloquear el proceso y retona la id de la misma
+        """
+        try:
+            id = self.device.read_id()
+            return id
         except Exception as ki:
             print("Error: " + str(ki))
             raise

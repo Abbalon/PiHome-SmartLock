@@ -1,6 +1,6 @@
 #!venv/bin/python
 """Código para la gestionar el acceso a un recinto.
-El sistema leera una tarjeta MFRC522, la cotejará con el sistema central, mandando la id de la tarjeta mediante Zigbee
+El sistema leera una tarjeta RFID, la cotejará con el sistema central, mandando la id de la tarjeta mediante Zigbee
 Si la respuesta es afirmativa, abrirá la cerradura de la puerta representada con un serbo, y pintará el LED verde, en
 caso contrário, pintará el led rojo"""
 from time import sleep
@@ -11,12 +11,13 @@ from gpiozero import LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 import config
-from .MFRC522 import MFRC522
+from .RFID import RFID
 from .servo import Cerradura
 from .xbee import XBee
 
 APAGAR = "SLEEP"
 CMD = "CMD"
+LEIDA_TARJETA = CMD + ":READ_TAG?"
 
 
 class WatchDog:
@@ -106,8 +107,8 @@ class WatchDog:
             self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
             self.__im_active = True
 
-            # Configuramos el lector de MFRC522
-            self.reader_tag = MFRC522()
+            # Configuramos el lector de RFID
+            self.reader_tag = RFID()
 
             print("Inicialización de WacthDog correcta\n")
 
@@ -144,18 +145,9 @@ class WatchDog:
         """
         max_try_reconnect: int = 5
         try:
-            if self.antena.is_open:
-                recived_order = self.antena.read_data()
+            self.escuchar_ordenes()
 
-                if recived_order is not None:
-                    msg = str(recived_order.data.decode("utf8"))
-                    if msg.startswith(CMD):
-                        self.ejecutar_accion_progamada(msg.split(':'))
-                    else:
-                        self.monitor_led.blink(0.2, 0.2, 3)
-                        print(msg)
-
-            self.olfatear()
+            self.vigilar_acceso()
 
         except XBeeException as e:
             print("WARN: Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))
@@ -164,12 +156,24 @@ class WatchDog:
                 if self.antena.is_open:
                     break
 
-    def olfatear(self) -> None:
+    def escuchar_ordenes(self):
+        msg = self.antena.escuchar_medio()
+        if msg is not None:
+            if msg.startswith(CMD):
+                self.ejecutar_accion_progamada(msg.split(':'))
+            else:
+                self.monitor_led.blink(0.2, 0.2, 3)
+                print(msg)
+
+    def vigilar_acceso(self) -> None:
         """
-            Método mediante el cual se reconocerá el tag presentado
+            Método mediante el cual se reconocerá el tag presentado, realizará la consulta al CPD.
             @rtype: None
         """
-        self.reader_tag.oler()
+        id_tag = self.reader_tag.leer_tarjeta()
+        if id_tag is not None:
+            self.monitor_led.blink(2, 1, 3)
+            self.antena.mandar_mensage(LEIDA_TARJETA + id_tag)
 
     def __sleep(self):
         self.__im_active = False

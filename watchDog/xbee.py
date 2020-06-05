@@ -9,6 +9,7 @@ from digi.xbee.models.message import XBeeMessage
 
 """Lista de palabras que podría contener un shield con una antena xbee"""
 xbeeAntenaWhiteList = ['FT232R', 'UART']
+PING = "CMD:PING"
 
 
 def encontrar_rutas() -> []:
@@ -85,10 +86,11 @@ class XBee(ZigBeeDevice):
     def remote_Zigbee(self, mac):
         self.__remote = RemoteZigBeeDevice(self, XBee64BitAddress.from_hex_string(mac))
 
-    def mandar_mensage(self, msg="Hello"):
+    def mandar_mensage(self, msg=PING) -> bool:
         """
-            Manda el mensaje al destinatario por defecto
+            Manda el mensaje al destinatario por defecto.
         """
+        check_mandado = False
         # Transformamos el mensaje recibido en un string tratable
         msg = str(msg)
         # Recuperamos la dirección del dispositivo remoto en formato de 64 bits
@@ -97,13 +99,16 @@ class XBee(ZigBeeDevice):
         low = self.remote_Zigbee.get_16bit_addr() or XBee16BitAddress.UNKNOWN_ADDRESS
         try:
             # Intentamos mandar el mensaje
-            super().send_data_64_16(high, low, msg)
+            test = super().send_data_64_16(high, low, msg)
+            print(str(test))
+            check_mandado = True
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
         else:
             # TODO Borrar esta traza de control
             print("Mandado mensaje:\t" + msg)
+            return check_mandado
 
     def __tratar_entrada(self, recived_msg: XBeeMessage):
         """
@@ -113,3 +118,31 @@ class XBee(ZigBeeDevice):
         msg = recived_msg.data.decode("utf8")
         print(msg)
         super().close()
+
+    def escuchar_medio(self) -> str:
+        """
+        Escucha por si enlace le manda algún mensaje
+        @return: El mensaje recibido si hay algo, None eoc
+        """
+        recived_msg = None
+        if self.is_open:
+            recived_order = self.read_data()
+            if recived_order is not None:
+                recived_msg = str(recived_order.data.decode("utf8"))
+
+        return recived_msg
+
+    def esperar_hasta_recibir_orden(self) -> str:
+        """
+            Bucle que no finaliza hasta que se recibe un mensaje
+            @return El mensaje recibido, None si la antena está cerrada
+        """
+        recived_msg = None
+        if self.is_open():
+            recived_order = None
+            while recived_order is None:
+                recived_order = self.read_data()
+                if recived_order is not None:
+                    recived_msg = str(recived_order.data.decode("utf8"))
+
+        return recived_msg

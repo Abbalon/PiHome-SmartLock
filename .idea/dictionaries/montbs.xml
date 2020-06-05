@@ -3,6 +3,7 @@
     <words>
       <w>abrir</w>
       <w>antena</w>
+      <w>apagar</w>
       <w>autor</w>
       <w>baudrate</w>
       <w>carga</w>
@@ -37,6 +38,7 @@
       <w>gira</w>
       <w>hasta</w>
       <w>inicializar</w>
+      <w>leida</w>
       <w>lista</w>
       <w>mandar</w>
       <w>mantener</w>
@@ -67,6 +69,7 @@
       <w>rfid</w>
       <w>ruta</w>
       <w>stapleton</w>
+      <w>tarjeta</w>
       <w>trabajo</w>
       <w>tratar</w>
       <w>xbee</w>
