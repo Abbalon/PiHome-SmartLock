@@ -117,8 +117,8 @@ class WatchDog:
 
             print("Inicialización de WacthDog correcta\n")
 
-        except Exception as e:
-            print(str(e))
+        except Exception as ex:
+            print(str(ex))
             raise
 
     def wake_up(self):
