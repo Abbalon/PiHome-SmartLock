@@ -182,7 +182,7 @@ class WatchDog:
         if id_tag is not None:
             self.monitor_led.blink(0.2, 0.2, 3)
             self.antena.mandar_mensage(LEIDA_TARJETA + str(id_tag))
-            self.ok_led.blink(1)
+            self.ok_led.blink(0.2, 0.2, 2)
 
     def __sleep(self):
         self.__im_active = False
@@ -247,15 +247,17 @@ class WatchDog:
             self.warn_led.blink()
             self.__sleep()
         if order == "ABRIR":
-            self.ok_led.blink(0.2, 0.2, 2)
+            self.warn_led.blink(0.2, 0.2, 2)
             self.cerradura.abrir()
         if order == "CERRAR":
-            self.ok_led.blink(0.2, 0.2, 2)
+            self.warn_led.blink(0.2, 0.2, 2)
             self.cerradura.cerrar()
         if order == "ECHO":
             status = "Cerradura[" + self.cerradura.estado + "]\n"
             status += "Antena[" + str(self.antena) + "]\n"
             self.antena.mandar_mensage(status)
+
+        self.ok_led.blink(0.2, 0.2, 2)
 
     def apagar_leds(self):
         """
