@@ -78,9 +78,8 @@ class XBee(ZigBeeDevice):
 
     def __str__(self):
         atr: dict = {'Opened': self.is_open(), 'Name': self.get_node_id(), 'Dir': str(self.get_64bit_addr()),
-                     'Network': str(self.get_network()), 'Pan Id': str(self.get_pan_id()),
-                     'Remoto_name': self.remote_Zigbee.get_node_id(),
-                     'Remoto_dir': str(self.remote_Zigbee.get_64bit_addr())}
+                     'Remote_dir': str(self.remote_Zigbee.get_64bit_addr()),
+                     'Port': self.serial_port}
 
         return format(atr)
 
