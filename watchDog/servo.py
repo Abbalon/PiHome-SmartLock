@@ -57,6 +57,7 @@ class Cerradura(AngularServo):
 
     def __del__(self):
         self.abrir()
+        sleep(SLEEP_TIME)
         self.close()
 
     @property
