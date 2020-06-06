@@ -33,6 +33,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="setup.*" />
+          <option value="watchDog.servo._max" />
         </list>
       </option>
     </inspection_tool>

@@ -18,9 +18,15 @@ class Cerradura(AngularServo):
     @see https://gpiozero.readthedocs.io/en/stable/api_output.html#angularservo
     """
 
+    MID_ANGLE: float = 90
+    MIN_ANGLE: float = 0
+    MAX_ANGLE: float = 180
+
     def __init__(self, pin=None, pin_factory=None):
         print("Creando la cerradura")
-        super(Cerradura, self).__init__(pin, 90, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH, SPEED,
+        self._estado = None
+        super(Cerradura, self).__init__(pin, self.MID_ANGLE, self.MIN_ANGLE, self.MAX_ANGLE, MIN_PULSE_WIDTH,
+                                        MAX_PULSE_WIDTH, SPEED,
                                         pin_factory=pin_factory)
         sleep(1)
         self.abrir()
@@ -37,6 +43,7 @@ class Cerradura(AngularServo):
         """
         self.max()
         sleep(SLEEP_TIME)
+        self.estado = self.angle
         self.angle = None
 
     def cerrar(self):
@@ -45,8 +52,23 @@ class Cerradura(AngularServo):
         """
         self.mid()
         sleep(SLEEP_TIME)
+        self.estado = self.angle
         self.angle = None
 
     def __del__(self):
         self.abrir()
         self.close()
+
+    @property
+    def estado(self) -> str:
+        """
+        @return: el estado de la cerradura
+        """
+        return self._estado
+
+    @estado.setter
+    def estado(self, value):
+        if value == self.MID_ANGLE:
+            self._estado = "CERRADO"
+        if value == self.MAX_ANGLE:
+            self._estado = "ABIERTO"
