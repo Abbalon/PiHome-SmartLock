@@ -19,13 +19,13 @@ except Exception as e:
 from .servo import Cerradura
 from .xbee import XBee
 
-APAGAR = "SLEEP"
-CMD = "CMD"
-LEIDA_TARJETA = CMD + ":READ_TAG?"
-
-
 class WatchDog:
     """Representa el dispositivo que regulará el control de acceso"""
+
+    APAGAR = "SLEEP"
+    CMD = "CMD"
+    LEIDA_TARJETA = CMD + ":READ_TAG?"
+    SHOUTING_DOWN = "SHOUTING_DOWN"
 
     @property
     def ok_led(self):
@@ -168,7 +168,7 @@ class WatchDog:
     def escuchar_ordenes(self):
         msg = self.antena.escuchar_medio()
         if msg is not None:
-            if msg.startswith(CMD):
+            if msg.startswith(self.CMD):
                 self.ejecutar_accion_progamada(msg.split(':'))
             else:
                 self.monitor_led.blink(0.2, 0.2, 3)
@@ -181,13 +181,14 @@ class WatchDog:
         """
         id_tag = self.reader_tag.leer_tarjeta()
         if id_tag is not None:
-            self.monitor_led.blink(2)
-            self.antena.mandar_mensage(LEIDA_TARJETA + str(id_tag))
+            self.monitor_led.blink(2, 1, 1)
+            self.antena.mandar_mensage(self.LEIDA_TARJETA + str(id_tag))
             self.ok_led.blink(0.2, 0.2, 2)
 
     def __sleep(self):
         self.__im_active = False
         self.apagar_leds()
+        self.antena.mandar_mensage(self.SHOUTING_DOWN)
         print("VAMOS!!!!")
 
     def __del__(self):
@@ -244,8 +245,8 @@ class WatchDog:
         """
         # Comprobamos que el primer parámetro sea un comando
         order: str = str(order_list.pop())
-        self.warn_led.blink(2)
-        if order == APAGAR:
+        self.monitor_led.blink(2, 1, 1)
+        if order == self.APAGAR:
             self.__sleep()
         if order == "ABRIR":
             self.cerradura.abrir()
