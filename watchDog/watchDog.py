@@ -180,8 +180,9 @@ class WatchDog:
         """
         id_tag = self.reader_tag.leer_tarjeta()
         if id_tag is not None:
-            self.monitor_led.blink(2, 1, 3)
+            self.monitor_led.blink(0.2, 0.2, 3)
             self.antena.mandar_mensage(LEIDA_TARJETA + str(id_tag))
+            self.ok_led.blink(1)
 
     def __sleep(self):
         self.__im_active = False
