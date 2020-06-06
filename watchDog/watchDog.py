@@ -253,7 +253,7 @@ class WatchDog:
             self.cerradura.cerrar()
         if order == "ECHO":
             status = "Cerradura[" + self.cerradura.estado + "]\n"
-            status += "Antena[" + self.antena + "]\n"
+            status += "Antena[" + str(self.antena) + "]\n"
             self.antena.mandar_mensage(status)
 
     def apagar_leds(self):
