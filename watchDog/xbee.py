@@ -100,9 +100,7 @@ class XBee(ZigBeeDevice):
         try:
             # Intentamos mandar el mensaje
             check_mandado = super().send_data_64_16(high, low, msg)
-            text: str = "K:\t{}\t:V:\t{}"
-            for k, v in check_mandado:
-                print(text.format(k, v))
+            print(format(check_mandado.transmit_status))
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
