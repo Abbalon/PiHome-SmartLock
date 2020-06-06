@@ -6,6 +6,8 @@ from digi.xbee.devices import ZigBeeDevice, RemoteZigBeeDevice
 from digi.xbee.exception import XBeeException
 from digi.xbee.models.address import XBee64BitAddress, XBee16BitAddress
 from digi.xbee.models.message import XBeeMessage
+from digi.xbee.models.status import TransmitStatus
+from digi.xbee.packets.common import TransmitStatusPacket
 
 """Lista de palabras que podría contener un shield con una antena xbee"""
 xbeeAntenaWhiteList = ['FT232R', 'UART']
@@ -90,7 +92,7 @@ class XBee(ZigBeeDevice):
         """
             Manda el mensaje al destinatario por defecto.
         """
-        check_mandado = None
+        check_mandado: TransmitStatusPacket = None
         # Transformamos el mensaje recibido en un string tratable
         msg = str(msg)
         # Recuperamos la dirección del dispositivo remoto en formato de 64 bits
@@ -100,14 +102,16 @@ class XBee(ZigBeeDevice):
         try:
             # Intentamos mandar el mensaje
             check_mandado = super().send_data_64_16(high, low, msg)
-            print(format(check_mandado.transmit_status))
+            print(format(check_mandado))
+            if check_mandado.transmit_status is not TransmitStatus.SUCCESS:
+                print(format(check_mandado))
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
         else:
             # TODO Borrar esta traza de control
             print("Mandado mensaje:\t" + msg)
-            return check_mandado
+            return check_mandado.transmit_status is TransmitStatus.SUCCESS
 
     def __tratar_entrada(self, recived_msg: XBeeMessage):
         """
