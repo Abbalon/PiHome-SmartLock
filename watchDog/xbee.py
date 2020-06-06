@@ -90,7 +90,7 @@ class XBee(ZigBeeDevice):
         """
             Manda el mensaje al destinatario por defecto.
         """
-        check_mandado = False
+        check_mandado = None
         # Transformamos el mensaje recibido en un string tratable
         msg = str(msg)
         # Recuperamos la dirección del dispositivo remoto en formato de 64 bits
@@ -99,9 +99,10 @@ class XBee(ZigBeeDevice):
         low = self.remote_Zigbee.get_16bit_addr() or XBee16BitAddress.UNKNOWN_ADDRESS
         try:
             # Intentamos mandar el mensaje
-            test = super().send_data_64_16(high, low, msg)
-            print(str(test))
-            check_mandado = True
+            check_mandado = super().send_data_64_16(high, low, msg)
+            text: str = "K:\t{}\t:V:\t{}"
+            for k, v in check_mandado:
+                print(text.format(k, v))
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
