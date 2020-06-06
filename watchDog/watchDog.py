@@ -11,7 +11,11 @@ from gpiozero import LED
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 import config
-from .RFID import RFID
+
+try:
+    from .RFID import RFID
+except Exception as e:
+    print("Nos estás en un entorno donde el puerto serial, para el RFID, esté disponible")
 from .servo import Cerradura
 from .xbee import XBee
 
@@ -108,7 +112,8 @@ class WatchDog:
             self.__im_active = True
 
             # Configuramos el lector de RFID
-            self.reader_tag = RFID()
+            if remote == 'False':
+                self.reader_tag = RFID()
 
             print("Inicialización de WacthDog correcta\n")
 
@@ -147,7 +152,8 @@ class WatchDog:
         try:
             self.escuchar_ordenes()
 
-            self.vigilar_acceso()
+            if config.remote == 'False':
+                self.vigilar_acceso()
 
         except XBeeException as e:
             print("WARN: Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))

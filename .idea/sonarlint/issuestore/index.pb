@@ -1502,5 +1502,5 @@ e
 5venv/lib/python3.8/site-packages/RPi/GPIO/__init__.py,c/5/c5bfede75f5e3d0d53e0e6846245106dbc14dbbd
 J
 Scripts/listadoOrdenes.xml,5/b/5b752fcefd8a7beb62ef65783e0f73f0b09f2477
-C
-watchDog/MFRC522.py,8/5/855dc68b132bd8c6d7a9c5f0ce1a9ebf2c5a586f
+@
+watchDog/RFID.py,9/2/92cb41a916e5dc939a69aaf0f355ad756d92f3ae
