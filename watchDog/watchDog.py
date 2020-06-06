@@ -127,6 +127,7 @@ class WatchDog:
         :return:
         """
         print("Stapleton se ha despertado.")
+        self.antena.mandar_mensage()
 
         msg_pool = []
         while self.__im_active:
