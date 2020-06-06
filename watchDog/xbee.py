@@ -78,8 +78,7 @@ class XBee(ZigBeeDevice):
 
     def __str__(self):
         atr: dict = {'Opened': self.is_open(), 'Name': self.get_node_id(), 'Dir': str(self.get_64bit_addr()),
-                     'Remote_dir': str(self.remote_Zigbee.get_64bit_addr()),
-                     'Port': self.serial_port}
+                     'Remote_dir': str(self.remote_Zigbee.get_64bit_addr())}
 
         return format(atr)
 
@@ -99,7 +98,7 @@ class XBee(ZigBeeDevice):
         """
             Manda el mensaje al destinatario por defecto.
         """
-        check_mandado: TransmitStatusPacket = None
+        ack: TransmitStatusPacket = None
         # Transformamos el mensaje recibido en un string tratable
         msg = str(msg)
         # Recuperamos la dirección del dispositivo remoto en formato de 64 bits
@@ -108,16 +107,23 @@ class XBee(ZigBeeDevice):
         low = self.remote_Zigbee.get_16bit_addr() or XBee16BitAddress.UNKNOWN_ADDRESS
         try:
             # Intentamos mandar el mensaje
-            beg: int = 0
-            end: int = 75
-            for i in range(0, int(len(msg) / 75) + 1):
-                _msg = msg[beg:end]
-                check_mandado = super().send_data_64_16(high, low, _msg)
-                print(format(check_mandado))
-                if check_mandado.transmit_status is not TransmitStatus.SUCCESS:
-                    print(format(check_mandado))
-                beg = end
-                end += 75
+            ## Versión fragmentando el paquete
+            # beg: int = 0
+            # end: int = 75
+            # for i in range(0, int(len(msg) / 75) + 1):
+            #     _msg = msg[beg:end]
+            #     ack = super().send_data_64_16(high, low, _msg)
+            #     print(format(ack))
+            #     if ack.transmit_status is not TransmitStatus.SUCCESS:
+            #         print(format(ack))
+            #     beg = end
+            #     end += 75
+
+            ## Versión sin fragmentar el paquete
+            ack = super().send_data_64_16(high, low, msg)
+            print(format(ack))
+            if ack.transmit_status is not TransmitStatus.SUCCESS:
+                print(format(ack))
 
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
@@ -125,7 +131,7 @@ class XBee(ZigBeeDevice):
         else:
             # TODO Borrar esta traza de control
             print("Mandado mensaje:\t" + msg)
-            return check_mandado.transmit_status is TransmitStatus.SUCCESS
+            return ack.transmit_status is TransmitStatus.SUCCESS
 
     def __tratar_entrada(self, recived_msg: XBeeMessage):
         """
