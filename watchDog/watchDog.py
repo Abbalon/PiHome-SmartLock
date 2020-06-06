@@ -181,7 +181,7 @@ class WatchDog:
         """
         id_tag = self.reader_tag.leer_tarjeta()
         if id_tag is not None:
-            self.monitor_led.blink(0.2, 0.2, 3)
+            self.monitor_led.blink(2)
             self.antena.mandar_mensage(LEIDA_TARJETA + str(id_tag))
             self.ok_led.blink(0.2, 0.2, 2)
 
@@ -244,14 +244,12 @@ class WatchDog:
         """
         # Comprobamos que el primer parámetro sea un comando
         order: str = str(order_list.pop())
+        self.warn_led.blink(2)
         if order == APAGAR:
-            self.warn_led.blink()
             self.__sleep()
         if order == "ABRIR":
-            self.warn_led.blink(0.2, 0.2, 2)
             self.cerradura.abrir()
         if order == "CERRAR":
-            self.warn_led.blink(0.2, 0.2, 2)
             self.cerradura.cerrar()
         if order == "ECHO":
             status = "Cerradura[" + self.cerradura.estado + "]\n"
