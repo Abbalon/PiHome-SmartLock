@@ -108,10 +108,17 @@ class XBee(ZigBeeDevice):
         low = self.remote_Zigbee.get_16bit_addr() or XBee16BitAddress.UNKNOWN_ADDRESS
         try:
             # Intentamos mandar el mensaje
-            check_mandado = super().send_data_64_16(high, low, msg)
-            print(format(check_mandado))
-            if check_mandado.transmit_status is not TransmitStatus.SUCCESS:
+            beg: int = 0
+            end: int = 75
+            for i in range(0, int(len(msg) / 75) + 1):
+                _msg = msg[beg:end]
+                check_mandado = super().send_data_64_16(high, low, _msg)
                 print(format(check_mandado))
+                if check_mandado.transmit_status is not TransmitStatus.SUCCESS:
+                    print(format(check_mandado))
+                beg = end
+                end += 75
+
         except Exception as e:
             print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
