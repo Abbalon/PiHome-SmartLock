@@ -77,9 +77,10 @@ class XBee(ZigBeeDevice):
             print("ERROR: No se ha cerrado la conexíón de la antena\n\t" + str(e))
 
     def __str__(self):
-        atr: dict = {'Opened': self.is_open(), 'Name': self.get_node_id(), 'Dir': self.get_64bit_addr(),
-                     'Network': self.get_network(), 'Pan Id': self.get_pan_id(), 'Rate': self.get_io_sampling_rate(),
-                     'Remoto_name': self.remote_Zigbee.get_node_id(), 'Remoto_dir': self.remote_Zigbee.get_64bit_addr()}
+        atr: dict = {'Opened': self.is_open(), 'Name': self.get_node_id(), 'Dir': str(self.get_64bit_addr()),
+                     'Network': str(self.get_network()), 'Pan Id': str(self.get_pan_id()),
+                     'Remoto_name': self.remote_Zigbee.get_node_id(),
+                     'Remoto_dir': str(self.remote_Zigbee.get_64bit_addr())}
 
         return format(atr)
 
