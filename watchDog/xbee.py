@@ -113,7 +113,6 @@ class XBee(ZigBeeDevice):
             # for i in range(0, int(len(msg) / 75) + 1):
             #     _msg = msg[beg:end]
             #     ack = super().send_data_64_16(high, low, _msg)
-            #     print(format(ack))
             #     if ack.transmit_status is not TransmitStatus.SUCCESS:
             #         print(format(ack))
             #     beg = end
@@ -121,7 +120,6 @@ class XBee(ZigBeeDevice):
 
             ## Versión sin fragmentar el paquete
             ack = super().send_data_64_16(high, low, msg)
-            print(format(ack))
             if ack.transmit_status is not TransmitStatus.SUCCESS:
                 print(format(ack))
 
