@@ -45,6 +45,11 @@ def main(args=None):
 if __name__ == "__main__":
     try:
         main()
+        print("TRACE: Ejecución finalizada")
+        sys.exit(0)
     except KeyboardInterrupt:
         print("Proceso abortado por el usuario")
         sys.exit(0)
+    except Exception as e:
+        print(str(e))
+        sys.exit(1)

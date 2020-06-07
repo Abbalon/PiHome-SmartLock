@@ -70,9 +70,10 @@ class XBee(ZigBeeDevice):
                 break
 
     def __del__(self):
-        print("Voy a dejar de escuchar")
+        print("TRACE: Eliminando el ZigBee")
         try:
-            super().del_data_received_callback(self.__tratar_entrada)
+            if self:
+                super().del_data_received_callback(self.__tratar_entrada)
         except Exception as e:
             print("ERROR: No se ha cerrado la conexíón de la antena\n\t" + str(e))
 

@@ -22,10 +22,16 @@ from .xbee import XBee
 class WatchDog:
     """Representa el dispositivo que regulará el control de acceso"""
 
-    APAGAR = "SLEEP"
     CMD = "CMD"
-    LEIDA_TARJETA = CMD + ":READ_TAG?"
-    SHOUTING_DOWN = "SHOUTING_DOWN"
+    # Inputs commands
+    APAGAR = "APAGAR"
+    ABRIR = "ABRIR"
+    CERRAR = "CERRAR"
+    ECHO = "ECHO"
+    # Outputs commands
+    INIT = CMD + ":INIT?"
+    READ_TAG = CMD + ":READ_TAG?"
+    SHOUTING_DOWN = CMD + ":SHOUTING_DOWN"
 
     @property
     def ok_led(self):
@@ -83,6 +89,34 @@ class WatchDog:
         """
         return self._reader
 
+    @cerradura.setter
+    def cerradura(self, value):
+        self._cerradura = value
+
+    @ok_led.setter
+    def ok_led(self, value):
+        self._ok_led = value
+
+    @warn_led.setter
+    def warn_led(self, value):
+        self._warn_led = value
+
+    @error_led.setter
+    def error_led(self, value):
+        self._error_led = value
+
+    @monitor_led.setter
+    def monitor_led(self, value):
+        self._monitor_led = value
+
+    @antena.setter
+    def antena(self, value):
+        self._antena = value
+
+    @reader_tag.setter
+    def reader_tag(self, value):
+        self._reader = value
+
     def __init__(self, remote):
         print("Inicializando WatchDog\n\tModo Local:\t" + str((remote == 'False')))
         try:
@@ -115,6 +149,9 @@ class WatchDog:
             if remote == 'False':
                 self.reader_tag = RFID()
 
+            print(config.action_in)
+            print(config.action_out)
+
             print("Inicialización de WacthDog correcta\n")
 
         except Exception as ex:
@@ -127,23 +164,11 @@ class WatchDog:
         :return:
         """
         print("Stapleton se ha despertado.")
-        self.antena.mandar_mensage()
+        self.antena.mandar_mensage(self.INIT + format(config.action_in))
 
         msg_pool = []
         while self.__im_active:
             self.merodear(msg_pool)
-
-        for x in range(5):
-            self.cerradura.abrir()
-            self.ok_led.blink(1, 1, 5)
-            self.warn_led.blink(1, 1, 5)
-            self.error_led.blink(1, 1, 5)
-            self.monitor_led.blink(1, 1, 5)
-            sleep(5)
-            self.cerradura.cerrar()
-            print(x)
-
-        print("et voila")
 
     def merodear(self, msg_pool: list):
         """Tratamos la información que recibamos
@@ -182,62 +207,37 @@ class WatchDog:
         id_tag = self.reader_tag.leer_tarjeta()
         if id_tag is not None:
             self.monitor_led.blink(2, 1, 1)
-            self.antena.mandar_mensage(self.LEIDA_TARJETA + str(id_tag))
+            self.antena.mandar_mensage(self.READ_TAG + str(id_tag))
             self.ok_led.blink(0.2, 0.2, 2)
 
     def __sleep(self):
         self.__im_active = False
         self.apagar_leds()
-        self.antena.mandar_mensage(self.SHOUTING_DOWN)
-        print("VAMOS!!!!")
+
 
     def __del__(self):
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
+        self.antena.mandar_mensage(self.SHOUTING_DOWN)
+        self.cerradura.abrir()
         # Dejamos 5 seg, antes de cerrar tod0, para cerrar las conexiones correctamente
         sleep(5)
 
         try:
             if self.cerradura and not self.cerradura.closed:
                 self.cerradura.close()
+                print("TRACE: Cerradura cerrada")
         except AttributeError:
             print("Parece que no se había creado la cerradura")
 
         try:
             if self.antena and self.antena.is_open():
                 self.antena.close()
+                print("TRACE: ZigBee desconectado")
         except AttributeError:
             print("Parece que no se había creado la antena")
 
         self.apagar_leds()
         print("Stapleton se ha vuelto a dormir")
-
-    @cerradura.setter
-    def cerradura(self, value):
-        self._cerradura = value
-
-    @ok_led.setter
-    def ok_led(self, value):
-        self._ok_led = value
-
-    @warn_led.setter
-    def warn_led(self, value):
-        self._warn_led = value
-
-    @error_led.setter
-    def error_led(self, value):
-        self._error_led = value
-
-    @monitor_led.setter
-    def monitor_led(self, value):
-        self._monitor_led = value
-
-    @antena.setter
-    def antena(self, value):
-        self._antena = value
-
-    @reader_tag.setter
-    def reader_tag(self, value):
-        self._reader = value
 
     def ejecutar_accion_progamada(self, order_list: List[str]):
         """
@@ -246,18 +246,21 @@ class WatchDog:
         # Comprobamos que el primer parámetro sea un comando
         order: str = str(order_list.pop())
         self.monitor_led.blink(2, 1, 1)
-        if order == self.APAGAR:
-            self.__sleep()
-        if order == "ABRIR":
-            self.cerradura.abrir()
-        if order == "CERRAR":
-            self.cerradura.cerrar()
-        if order == "ECHO":
-            status = "Cerradura[" + self.cerradura.estado + "]\n"
-            status += "Antena[" + str(self.antena) + "]\n"
-            self.antena.mandar_mensage(status)
-
-        self.ok_led.blink(0.2, 0.2, 2)
+        if order in config.action_in:
+            if order == self.APAGAR:
+                self.__sleep()
+            if order == self.ABRIR:
+                self.cerradura.abrir()
+            if order == self.CERRAR:
+                self.cerradura.cerrar()
+            if order == self.ECHO:
+                status = "Cerradura[" + self.cerradura.estado + "]\n"
+                status += "Antena[" + str(self.antena) + "]\n"
+                self.antena.mandar_mensage(status)
+            self.ok_led.blink(0.2, 0.2, 2)
+        else:
+            print("ERROR: Se está intentando realizar una acción que no está contemplada.")
+            self.error_led.blink(0.2, 0.2, 2)
 
     def apagar_leds(self):
         """

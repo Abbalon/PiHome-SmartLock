@@ -49,6 +49,9 @@ Para ello, hay que comprobar que tenemos instalado el paquete *usbutils*
 $ dpkg --get-selections | grep usbutils
 ~~~
 
+El sistema escaneará los disitivos USB conectados y tratara de crear la conexíon mediante un objeto *ZigBeeDevice* de la
+librería *digi* (https://xbplib.readthedocs.io/en/stable/api/modules.html).
+
 ### Servo
 El dispositivo empleado para este fin es el servo ```SG90```.  
 
@@ -69,6 +72,7 @@ MAX_PULSE_WIDTH = 200 / 100000  # 2ms
 SPEED = 20 / 1000  # 20ms corresponde con la frecuencia del SG90
 SLEEP_TIME = 0.2
 ```
+La conexión al pin de control se ha configurado en el pin *12* - *GPIO18* 
 
 ## Lector RFID
 Para realizar la identificación del usuario, se empleará un lector del tarjetas RFID. Para esta demostración se empleará
@@ -90,6 +94,18 @@ Tras lo que, si todo ha ido bien, deberíamos obtener algún resultado.
 
 ### RFID-RC522
 
+Esta clase realiza una encapsulación/abstracción de la libreria  *mfrc522* de https://pimylifeup.com/raspberry-pi-rfid-rc522/, con la configuración estandar, es decir:  
+
+| RC522 PIN | RPi Zero PIN Number | RPi Zero PIN Name |
+|-----------|---------------------|-------------------|
+| SDA       | 24                  | GPIO8             |
+| SCK       | 23                  | GPIO11            |
+| MOSI      | 19                  | GPIO10            |
+| MISO      | 21                  | GPIO9             |
+| RST       | 22                  | GPIO25            |
+| GND       | GND                 |                   |
+| PWD       | 3.3V                |                   |
+
 ## Inicio
 El sistema se arranca ejecutando el *__main__.py* del paquete principal con el argumento adecuado, 
 atendiendo al entrono de desarrollo que se vaya a emplear.
@@ -103,5 +119,54 @@ optional arguments:
   -R REMOTE, --remote REMOTE
                         Defino que tipo de ejecución se va a realizar, remota
                         o local, True o False, respectivamente
-
 ~~~
+
+Tras iniciar el proceso, el sistema cargará la configuración de los ficheros ***env.ini*** y ***local.ini***.  
+
+Después, el sistema creará los elementos que precise, a saber: LED, Servo, antena ZigBee y antena RFID. Si todo ha sido 
+correcto, mostrá un log similar al siguiente:  
+
+~~~log
+Leyendo configuración ...
+Ficheros a tratar:      ['env.ini', 'local.ini']
+Se han recibido los ficheros
+Configurador de propiedades cargado
+Preparandose para tratar el fichero:    env.ini
+        Extrayendo configuración del fichero:   env.ini
+Preparandose para tratar el fichero:    local.ini
+        Extrayendo configuración del fichero:   local.ini
+Configuración recuperada correctamente.
+
+Inicializando WatchDog
+        Modo Local:     True
+Cargando configuración para ejecución en local.
+
+Creando la cerradura
+Cerradura correcta
+
+Creando la antena
+Puertos encontrados: ['/dev/ttyUSB0']
+Frecuencia de trabajo: 9600
+Enlace remoto: 0013A2004151####
+Probando el puerto: /dev/ttyUSB0
+        Conectada la antena 'Arduino Router(0013A2004151####)' al puerto /dev/ttyUSB0
+
+Inicialización de WacthDog correcta
+
+Stapleton se ha despertado.
+~~~
+
+Una vez el sistema se haya cargado, mandará una señal al CPD para indicarle que está disponible y entrará en un bucle en
+el que, a cada ciclo, comprobará si se ha recibido un mensaje desde el CPD o si se ha detectado una tarjeta RFID, hasta 
+que reciba la señal de apagado de ese, que desencadenará las acciones necesarias para asegurarse que los elementos
+empleados están desconectados.
+
+
+
+ ### ENV.INI
+ Este fichero está dstino a almacenar la información que el sistema necesita para funcionar, como lugares GPIO donde se
+ pincharán los diversos elementos, o información general del sistema.
+ 
+ ### LOCAL.INI
+ Este fichero contiene la información privada del sistema, como contraseñas, direcciones ip o mac, ... por lo que no se 
+ incluye en el repositorio.

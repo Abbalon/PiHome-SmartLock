@@ -165,6 +165,10 @@ if parameters.__len__() > 1:
     # Dirección mac del dispositivo que gestionará los periféricos
     mac_router = parameters.get('xbee.mac', 'router')
 
+    # Listado de acciones configuradas
+    action_in = parameters.get('action', 'in').split()
+    action_out = parameters.get('action', 'out').split()
+
     print("Configuración recuperada correctamente.\n")
 
     loaded = True

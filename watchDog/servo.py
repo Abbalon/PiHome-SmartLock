@@ -33,7 +33,7 @@ class Cerradura(AngularServo):
         sleep(1)
         self.cerrar()
         sleep(1)
-        self.angle = None
+        self.abrir()
         print("Cerradura correcta\n")
 
     def abrir(self):
@@ -56,9 +56,14 @@ class Cerradura(AngularServo):
         self.angle = None
 
     def __del__(self):
-        self.abrir()
-        sleep(SLEEP_TIME)
-        self.close()
+        print("TRACE: Eliminando el servo")
+        try:
+            if self:
+                self.abrir()
+                sleep(SLEEP_TIME)
+                self.close()
+        except Exception as e:
+            print("ERROR: No se ha podido eliminar el servo como se esperaba:\n\t" + str(e))
 
     @property
     def estado(self) -> str:
