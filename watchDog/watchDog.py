@@ -27,10 +27,11 @@ class WatchDog:
     APAGAR = "APAGAR"
     ABRIR = "ABRIR"
     CERRAR = "CERRAR"
+    READ_TAG = "READ_TAG"
     ECHO = "ECHO"
     # Outputs commands
     INIT = CMD + ":INIT?"
-    READ_TAG = CMD + ":READ_TAG?"
+    READ_TAG_OUT = CMD + ":READ_TAG_OUT?"
     SHOUTING_DOWN = CMD + ":SHOUTING_DOWN"
 
     @property
@@ -207,7 +208,7 @@ class WatchDog:
         id_tag = self.reader_tag.leer_tarjeta()
         if id_tag is not None:
             self.monitor_led.blink(2, 1, 1)
-            self.antena.mandar_mensage(self.READ_TAG + str(id_tag))
+            self.antena.mandar_mensage(self.READ_TAG_OUT + str(id_tag))
             self.ok_led.blink(0.2, 0.2, 2)
 
     def __sleep(self):
@@ -253,6 +254,9 @@ class WatchDog:
                 self.cerradura.abrir()
             if order == self.CERRAR:
                 self.cerradura.cerrar()
+            if order == self.READ_TAG:
+                tag_read = self.reader_tag.esperar_hasta_leer_tarjeta()
+                self.antena.mandar_mensage(self.READ_TAG_OUT + tag_read)
             if order == self.ECHO:
                 status = "Cerradura[" + self.cerradura.estado + "]\n"
                 status += "Antena[" + str(self.antena) + "]\n"
