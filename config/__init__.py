@@ -20,7 +20,7 @@ logger.setLevel(logging.INFO)
 try:
     warn_file_handler = logging.FileHandler("log/log.log")
 except FileNotFoundError:
-    os.mkdir("../log/log.log")
+    os.mkdir("log")
     warn_file_handler = logging.FileHandler("log/log.log")
 warn_file_handler.setLevel(logging.WARN)
 logger.addHandler(warn_file_handler)
