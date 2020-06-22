@@ -21,6 +21,7 @@ try:
     warn_file_handler = logging.FileHandler("log/log.log")
 except FileNotFoundError:
     os.mkdir("../log")
+    warn_file_handler = logging.FileHandler("log/log.log")
 warn_file_handler.setLevel(logging.WARN)
 logger.addHandler(warn_file_handler)
 logger.addHandler(logging.StreamHandler())
