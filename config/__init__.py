@@ -1,6 +1,7 @@
 #!venv/bin/python
 """Paquete que controla los ficheros de configuración del proyecto"""
 
+import logging
 # Cargamos los datos del fichero de configuración
 import os
 from configparser import ConfigParser
@@ -13,6 +14,13 @@ from watchDog import xbee
 sufixMySQL = '.mysql'
 
 loaded = False
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+warn_file_handler = logging.FileHandler("log/log.log")
+warn_file_handler.setLevel(logging.WARN)
+logger.addHandler(warn_file_handler)
+logger.addHandler(logging.StreamHandler())
 
 
 def read_config(cfg_files) -> ConfigParser:
@@ -27,23 +35,23 @@ def read_config(cfg_files) -> ConfigParser:
 
     assert (cfg_files is not None), "Ups, no se ha podido encontrar nigún fichero de configuración."
 
-    print("Leyendo configuración ...")
-    print("Ficheros a tratar:\t" + str(cfg_files))
+    logger.info("Leyendo configuración ...")
+    logger.info("Ficheros a tratar:\t" + str(cfg_files))
 
     if cfg_files is not None:
-        print("Se han recibido los ficheros")
+        logger.debug("Se han recibido los ficheros")
         config_properties = ConfigParser()
         if config_properties is None:
             raise ValueError("No se han escontrado parametros de configuración", cfg_files)
         else:
-            print("Configurador de propiedades cargado")
+            logger.info("Configurador de propiedades cargado")
 
         # merges all files into a single config
         for i, cfg_file in enumerate(cfg_files):
-            print("Preparandose para tratar el fichero:\t" + cfg_file)
+            logger.info("Preparandose para tratar el fichero:\t" + cfg_file)
             if os.path.exists(cfg_file):
                 config_properties.read(cfg_file)
-                print("\tExtrayendo configuración del fichero:\t" + cfg_file)
+                logger.info("\tExtrayendo configuración del fichero:\t" + cfg_file)
             else:
                 raise FileNotFoundError("No se ha posido encontrar el fichero", cfg_file, str(os.listdir))
 
@@ -109,6 +117,13 @@ __version = None
 __description = None
 __autor = None
 
+# Formato de los mensajes de logging
+log_format = None
+log_level = None
+log_file = None
+warn_log_file = None
+log = None
+
 """Definición de las variables de configuración"""
 # Dirección del host remoto
 remote_host = None
@@ -136,6 +151,22 @@ if parameters.__len__() > 1:
     env = parameters.get('branch', 'env')
     remote = parameters.get('branch', 'remote')
     remote_host = parameters.get('remote', 'host')  # Configurado en local.ini
+
+    # Formato a aplicar en los print del log
+    log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    # log_format = parameters.get(env + '.log', 'format')
+    log_level = logging.getLevelName(parameters.get(env + '.log', 'level'))
+    log_file = parameters.get(env + '.log', 'file_log')
+    warn_log_file = parameters.get(env + '.log', 'warn_log_file')
+
+    log = logging
+    log.basicConfig(level=log_level,
+                    format=log_format,
+                    filename=log_file)
+    warn_file_handler = log.FileHandler(warn_log_file)
+    warn_file_handler.setLevel(logging.WARN)
+    formatter = logging.Formatter(log_format)
+    warn_file_handler.setFormatter(formatter)
 
     # proceed to point everything at the 'branched' resources
     dbUrl = parameters.get(env + sufixMySQL, 'dbUrl')
@@ -169,6 +200,6 @@ if parameters.__len__() > 1:
     action_in = parameters.get('action', 'in').split()
     action_out = parameters.get('action', 'out').split()
 
-    print("Configuración recuperada correctamente.\n")
+    logger.info("Configuración recuperada correctamente.")
 
     loaded = True

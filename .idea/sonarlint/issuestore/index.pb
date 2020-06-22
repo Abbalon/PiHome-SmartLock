@@ -1504,3 +1504,7 @@ J
 Scripts/listadoOrdenes.xml,5/b/5b752fcefd8a7beb62ef65783e0f73f0b09f2477
 @
 watchDog/RFID.py,9/2/92cb41a916e5dc939a69aaf0f355ad756d92f3ae
+<
+log/warn.log,f/c/fc16781cee5e02f8cc3184785e1971e139a97024
+;
+log/log.log,f/1/f1df0aedcaaf35450333afbed1938b2972287183

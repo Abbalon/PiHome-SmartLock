@@ -5,6 +5,8 @@ from time import sleep
 
 from gpiozero import AngularServo
 
+import config
+
 MIN_PULSE_WIDTH = 35 / 100000  # 0.35ms
 MAX_PULSE_WIDTH = 200 / 100000  # 2ms
 SPEED = 20 / 1000  # 20ms corresponde con la frecuencia del SG90
@@ -22,8 +24,24 @@ class Cerradura(AngularServo):
     MIN_ANGLE: float = 0
     MAX_ANGLE: float = 180
 
+    @property
+    def logger(self):
+        """
+
+        @return:
+        """
+        return self._logger
+
+    @logger.setter
+    def logger(self, value):
+        self._logger = value
+        self.logger.setLevel(config.log_level)
+        self.logger.addHandler(config.warn_file_handler)
+        self.logger.addHandler(config.log.StreamHandler())
+
     def __init__(self, pin=None, pin_factory=None):
-        print("Creando la cerradura")
+        self.logger = config.log.getLogger(__name__)
+        self.logger.info("Creando la cerradura")
         self._estado = None
         super(Cerradura, self).__init__(pin, self.MID_ANGLE, self.MIN_ANGLE, self.MAX_ANGLE, MIN_PULSE_WIDTH,
                                         MAX_PULSE_WIDTH, SPEED,
@@ -34,7 +52,7 @@ class Cerradura(AngularServo):
         self.cerrar()
         sleep(1)
         self.abrir()
-        print("Cerradura correcta\n")
+        self.logger.info("Cerradura correcta\n")
 
     def abrir(self):
         """
@@ -56,14 +74,14 @@ class Cerradura(AngularServo):
         self.angle = None
 
     def __del__(self):
-        print("TRACE: Eliminando el servo")
+        self.logger.debug("Eliminando el servo")
         try:
             if self:
                 self.abrir()
                 sleep(SLEEP_TIME)
                 self.close()
         except Exception as e:
-            print("ERROR: No se ha podido eliminar el servo como se esperaba:\n\t" + str(e))
+            self.logger.error("No se ha podido eliminar el servo como se esperaba:\n\t" + str(e))
 
     @property
     def estado(self) -> str:

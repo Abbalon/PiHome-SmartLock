@@ -15,9 +15,10 @@ import config
 try:
     from .RFID import RFID
 except Exception as e:
-    print("Nos estás en un entorno donde el puerto serial, para el RFID, esté disponible")
+    print("No estás en un entorno donde el puerto serial, para el RFID, esté disponible")
 from .servo import Cerradura
 from .xbee import XBee
+
 
 class WatchDog:
     """Representa el dispositivo que regulará el control de acceso"""
@@ -31,7 +32,7 @@ class WatchDog:
     ECHO = "ECHO"
     # Outputs commands
     INIT = CMD + ":INIT?"
-    READ_TAG_OUT = CMD + ":READ_TAG_OUT?"
+    READ_TAG_OUT = CMD + ":READ_TAG?"
     SHOUTING_DOWN = CMD + ":SHOUTING_DOWN"
 
     @property
@@ -90,6 +91,21 @@ class WatchDog:
         """
         return self._reader
 
+    @property
+    def logger(self):
+        """
+
+        @return:
+        """
+        return self._logger
+
+    @logger.setter
+    def logger(self, value):
+        self._logger = value
+        self.logger.setLevel(config.log_level)
+        self.logger.addHandler(config.warn_file_handler)
+        self.logger.addHandler(config.log.StreamHandler())
+
     @cerradura.setter
     def cerradura(self, value):
         self._cerradura = value
@@ -118,12 +134,16 @@ class WatchDog:
     def reader_tag(self, value):
         self._reader = value
 
-    def __init__(self, remote):
-        print("Inicializando WatchDog\n\tModo Local:\t" + str((remote == 'False')))
+    def __init__(self, remote, *args, **kwargs):
+
+        self.logger = config.log.getLogger(__name__)
+
+        self.logger.debug("Inicializando WatchDog\n\tModo Local:\t" + str((remote == 'False')))
         try:
+
             if remote and remote == 'True':
                 assert config.remote_host, "No se ha encontrado la dirección remota donde ejecutarse"
-                print("Cargando configuración para ejecución en remoto.\n")
+                self.logger.debug("Cargando configuración para ejecución en remoto.\n")
                 factory = PiGPIOFactory(host=config.remote_host)
                 # Seteamos el pin de datos del servo  un puerto PWM
                 self.cerradura = Cerradura(config.pin_servo, pin_factory=factory)
@@ -133,7 +153,7 @@ class WatchDog:
                 self.error_led = LED(config.pin_error, pin_factory=factory)
                 self.monitor_led = LED(config.pin_monitor, pin_factory=factory)
             else:
-                print("Cargando configuración para ejecución en local.\n")
+                self.logger.debug("Cargando configuración para ejecución en local.")
                 # Seteamos el pin de datos del servo  un puerto PWM
                 self.cerradura = Cerradura(config.pin_servo)
                 # Seteo de los pines
@@ -150,13 +170,14 @@ class WatchDog:
             if remote == 'False':
                 self.reader_tag = RFID()
 
-            print(config.action_in)
-            print(config.action_out)
+            self.logger.debug("Acciones de entrada:\t" + str(config.action_in))
+            self.logger.debug("Acciones de salida:\t" + str(config.action_out))
 
-            print("Inicialización de WacthDog correcta\n")
+            self.logger.info("Inicialización de WacthDog correcta")
 
         except Exception as ex:
             print(str(ex))
+            self.logger.error(ex)
             raise
 
     def wake_up(self):
@@ -164,7 +185,7 @@ class WatchDog:
         Hablilitamos la funcionalidad de la puerta
         :return:
         """
-        print("Stapleton se ha despertado.")
+        self.logger.info("Stapleton se ha despertado.")
         self.antena.mandar_mensage(self.INIT + format(config.action_in))
 
         msg_pool = []
@@ -183,13 +204,16 @@ class WatchDog:
                 self.vigilar_acceso()
 
         except XBeeException as e:
-            print("WARN: Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))
+            self.logger.warning(
+                "Parece que se ha desconectado la antena o hay más procesos accediendo a ella\n\t" + str(e))
             for x in range(max_try_reconnect):
+                self.logger.warning(
+                    "Ejecutando intento de reconexión:\t{}".format(x))
                 self.antena = XBee(config.xbee_port, config.xbee_baudrate, config.mac_puerta)
                 if self.antena.is_open:
                     break
         except Exception as e:
-            print("ERROR:\t" + str(e))
+            self.logger.error(e)
 
     def escuchar_ordenes(self):
         msg = self.antena.escuchar_medio()
@@ -215,7 +239,6 @@ class WatchDog:
         self.__im_active = False
         self.apagar_leds()
 
-
     def __del__(self):
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
         self.antena.mandar_mensage(self.SHOUTING_DOWN)
@@ -226,19 +249,19 @@ class WatchDog:
         try:
             if self.cerradura and not self.cerradura.closed:
                 self.cerradura.close()
-                print("TRACE: Cerradura cerrada")
+                self.logger.debug("Cerradura cerrada")
         except AttributeError:
-            print("Parece que no se había creado la cerradura")
+            self.logger.warning("Parece que no se había creado la cerradura")
 
         try:
             if self.antena and self.antena.is_open():
                 self.antena.close()
-                print("TRACE: ZigBee desconectado")
+                self.logger.debug("ZigBee desconectado")
         except AttributeError:
-            print("Parece que no se había creado la antena")
+            self.logger.warning("Parece que no se había creado la antena")
 
         self.apagar_leds()
-        print("Stapleton se ha vuelto a dormir")
+        self.logger.info("Stapleton se ha vuelto a dormir")
 
     def ejecutar_accion_progamada(self, order_list: List[str]):
         """
@@ -263,7 +286,7 @@ class WatchDog:
                 self.antena.mandar_mensage(status)
             self.ok_led.blink(0.2, 0.2, 2)
         else:
-            print("ERROR: Se está intentando realizar una acción que no está contemplada.")
+            self.logger.warning("Se está intentando realizar una acción que no está contemplada.")
             self.error_led.blink(0.2, 0.2, 2)
 
     def apagar_leds(self):

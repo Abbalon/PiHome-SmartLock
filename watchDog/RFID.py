@@ -7,6 +7,8 @@
 """
 from mfrc522 import SimpleMFRC522
 
+import config
+
 
 class RFID(object):
     """
@@ -15,6 +17,21 @@ class RFID(object):
 
     CHANNEL: int = 0
     CHIP_SELECT: int = 0
+
+    @property
+    def logger(self):
+        """
+
+        @return:
+        """
+        return self._logger
+
+    @logger.setter
+    def logger(self, value):
+        self._logger = value
+        self.logger.setLevel(config.log_level)
+        self.logger.addHandler(config.warn_file_handler)
+        self.logger.addHandler(config.log.StreamHandler())
 
     @property
     def device(self):
@@ -30,6 +47,7 @@ class RFID(object):
 
     def __init__(self):
         self.device = SimpleMFRC522()
+        self.logger = config.log.getLogger(__name__)
 
     def leer_tarjeta(self) -> str:
         """
@@ -40,7 +58,7 @@ class RFID(object):
             id = self.device.read_id_no_block()
             return id
         except Exception as ki:
-            print("Error: " + str(ki))
+            self.logger.error(str(ki))
             raise
 
     def esperar_hasta_leer_tarjeta(self) -> str:
@@ -51,5 +69,5 @@ class RFID(object):
             id = self.device.read_id()
             return id
         except Exception as ki:
-            print("Error: " + str(ki))
+            self.logger.error(str(ki))
             raise

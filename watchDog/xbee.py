@@ -9,6 +9,8 @@ from digi.xbee.models.message import XBeeMessage
 from digi.xbee.models.status import TransmitStatus
 from digi.xbee.packets.common import TransmitStatusPacket
 
+import config
+
 """Lista de palabras que podría contener un shield con una antena xbee"""
 xbeeAntenaWhiteList = ['FT232R', 'UART']
 PING = "CMD:PING"
@@ -33,25 +35,40 @@ class XBee(ZigBeeDevice):
     WatchDog
     @see https://xbplib.readthedocs.io/en/stable/index.html"""
 
+    @property
+    def logger(self):
+        """
+
+        @return:
+        """
+        return self._logger
+
+    @logger.setter
+    def logger(self, value):
+        self._logger = value
+        self.logger.setLevel(config.log_level)
+        self.logger.addHandler(config.warn_file_handler)
+        self.logger.addHandler(config.log.StreamHandler())
+
     def __init__(self, port_list, baud_rate, remote_mac=None):
         """Instanciamos una antena XBeee a partir de un dispositivo ZigBeeDevice
         @param port_list Lista de puertos en los que se podría encontrar la antena conectada
         @param baud_rate Frecuencia de trabajo de la antena
         @param remote_mac [Opcional] Dirección mac a de la antena a la que se conectará"""
 
-        print("Creando la antena")
+        self.logger = config.log.getLogger(__name__)
+        self.logger.info("Creando la antena")
         """De la lista de posibles puertos a la que pueda estár conectada la antena
         nos conectamos a la primera y lo notificamos"""
-        print("Puertos encontrados: " + str(port_list))
-        print("Frecuencia de trabajo: " + str(baud_rate))
-        print("Enlace remoto: " + str(remote_mac))
+        self.logger.info("Puertos encontrados: " + str(port_list))
+        self.logger.info("Frecuencia de trabajo: " + str(baud_rate))
+        self.logger.info("Enlace remoto: " + str(remote_mac))
         for port in port_list:
-            print("Probando el puerto: " + port)
+            self.logger.info("Probando el puerto: " + port)
             try:
                 super().__init__(port, baud_rate)
             except Exception as e:
-                print("Encontrado un error al inicializar el dispositivo ZigBeeDevice")
-                print(str(e))
+                self.logger.error("Encontrado un error al inicializar el dispositivo ZigBeeDevice\n" + str(e))
                 raise e
 
             try:
@@ -62,20 +79,20 @@ class XBee(ZigBeeDevice):
                 # Nos disponemos a escuchar el medio
                 # super().add_data_received_callback(self.__tratar_entrada)
             except XBeeException as e:
-                print("ERROR: No se ha podido conectar con la antena XBee.\n\t" + str(e))
+                self.logger.error("No se ha podido conectar con la antena XBee.\n\t" + str(e))
                 super().close()
             else:
                 antena = str(super().get_node_id() + "(" + str(super().get_64bit_addr()) + ")")
-                print("\tConectada la antena '" + antena + "' al puerto " + port + "\n")
+                self.logger.info("\tConectada la antena '" + antena + "' al puerto " + port + "\n")
                 break
 
     def __del__(self):
-        print("TRACE: Eliminando el ZigBee")
+        self.logger.debug("Eliminando el ZigBee")
         try:
             if self:
                 super().del_data_received_callback(self.__tratar_entrada)
         except Exception as e:
-            print("ERROR: No se ha cerrado la conexíón de la antena\n\t" + str(e))
+            self.logger.error("No se ha cerrado la conexíón de la antena\n\t" + str(e))
 
     def __str__(self):
         atr: dict = {'Opened': self.is_open(), 'Name': self.get_node_id(), 'Dir': str(self.get_64bit_addr()),
@@ -121,15 +138,16 @@ class XBee(ZigBeeDevice):
 
             ## Versión sin fragmentar el paquete
             ack = super().send_data_64_16(high, low, msg)
+            self.logger.debug(format(ack))
             if ack.transmit_status is not TransmitStatus.SUCCESS:
-                print(format(ack))
+                self.logger.warning(format(ack))
 
         except Exception as e:
-            print("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
+            self.logger.error("Se ha encontrado un error al mandar el mensaje\n\t" + str(e))
             # Añadir código para el reintento
         else:
             # TODO Borrar esta traza de control
-            print("Mandado mensaje:\t" + msg)
+            self.logger.debug("Mandado mensaje:\t" + msg)
             return ack.transmit_status is TransmitStatus.SUCCESS
 
     def __tratar_entrada(self, recived_msg: XBeeMessage):
@@ -138,7 +156,7 @@ class XBee(ZigBeeDevice):
         @param recived_msg:
         """
         msg = recived_msg.data.decode("utf8")
-        print(msg)
+        self.logger.debug(msg)
         super().close()
 
     def escuchar_medio(self) -> str:

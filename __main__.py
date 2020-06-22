@@ -7,6 +7,7 @@ caso contrário, pintará el led rojo"""
 # Gestionamos el tipo de ejecución que se va a realizar
 import argparse
 # Cargamos la configuración
+import logging
 import sys
 
 import config
@@ -25,6 +26,12 @@ def get_parser():
     return parser
 
 
+logger = logging.getLogger(__name__)
+logger.setLevel(config.log_level)
+logger.addHandler(config.warn_file_handler)
+logger.addHandler(config.log.StreamHandler())
+
+
 def main(args=None):
     """
     Main entry point for your project.
@@ -38,18 +45,19 @@ def main(args=None):
 
     parser = get_parser()
     args = parser.parse_args(args)
-    stapleton = WatchDog(remote=args.remote)
+    stapleton = WatchDog(remote=config.remote, logger=logger)
     stapleton.wake_up()
 
 
 if __name__ == "__main__":
     try:
+        logger.info("Starting the program")
         main()
-        print("TRACE: Ejecución finalizada")
+        logger.info("Ejecución finalizada")
         sys.exit(0)
     except KeyboardInterrupt:
-        print("Proceso abortado por el usuario")
+        logger.warning("Proceso abortado por el usuario")
         sys.exit(0)
     except Exception as e:
-        print(str(e))
+        logger.error(str(e))
         sys.exit(1)
