@@ -232,7 +232,7 @@ class WatchDog:
         id_tag = self.reader_tag.leer_tarjeta()
 
         if id_tag is not None:
-            self.logger.info("Leida targeta:\t" + id_tag)
+            self.logger.info("Leida targeta:\t{}".format(id_tag))
             self.monitor_led.blink(2, 1, 1)
             self.antena.mandar_mensage(self.READ_TAG_OUT + str(id_tag))
             self.ok_led.blink(0.2, 0.2, 2)
