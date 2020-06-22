@@ -17,7 +17,10 @@ loaded = False
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-warn_file_handler = logging.FileHandler("log/log.log")
+try:
+    warn_file_handler = logging.FileHandler("log/log.log")
+except FileNotFoundError:
+    os.mkdir("../log")
 warn_file_handler.setLevel(logging.WARN)
 logger.addHandler(warn_file_handler)
 logger.addHandler(logging.StreamHandler())
