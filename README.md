@@ -3,7 +3,7 @@ ___
 ***Zero-Project***, es el módulo de ***PyHome***, que se encarga de la ejecución de la funcionalidad de control de acceso.
 
 Este módulo, está diseñado para ser ejecutado sobre una unidad *Raspberri Pi Zero*, por lo que no se tienen en cuenta las 
-interfaces de red WiFi ni BlueTooth. (*Sin embargo, para su desarrollo, si se ha utilizado la versión HW, para un mejor 
+interfaces de red WiFi ni bluetooth. (*Sin embargo, para su desarrollo, si se ha utilizado la versión HW, para un mejor 
 *debug**).  
 
 ## Estructura
