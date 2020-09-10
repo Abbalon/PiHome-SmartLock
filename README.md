@@ -3,37 +3,48 @@ ___
 ***Zero-Project***, es el módulo de ***PyHome***, que se encarga de la ejecución de la funcionalidad de control de acceso.
 
 Este módulo, está diseñado para ser ejecutado sobre una unidad *Raspberri Pi Zero*, por lo que no se tienen en cuenta las 
-interfaces de red WiFi ni BlueTooth. (*Sin embargo, para su desarrollo, si se ha utilizado la versión HW, para un mejor 
+interfaces de red WiFi ni bluetooth. (*Sin embargo, para su desarrollo, si se ha utilizado la versión HW, para un mejor 
 *debug**).  
 
 ## Estructura
 ~~~
+.
 ├── config
 │   ├── __init__.py
+│   └── __pycache__
 ├── env.ini
 ├── local.ini
+├── log
+│   ├── log.log
+│   └── warn.log
 ├── __main__.py
 ├── README.md
 ├── requirements.txt
 ├── Scripts
-│   ├── router.xml
+│   ├── listadoOrdenes.xml
 │   └── run.sh
 ├── setup.py
 ├── test
 │   ├── __init__.py
 │   └── servo.py
+├── venv
+│   ├── bin
+│   ├── lib
+│   └── pyvenv.cfg
 └── watchDog
     ├── __init__.py
+    ├── __pycache__
+    ├── RFID.py
     ├── servo.py
     ├── watchDog.py
-    └── xbee.py 
+    └── xbee.py
 ~~~
 
 ## Componentes
 Toda la estructura se asienta sobre el objeto ```watchDog.watchDog.WatchDog```, que será el que integre cada uno del
 resto de componentes que vaya a disponer el dispositivo.
 
-La interface de comunicación con el módulo central ***PyHome*** o **Centro de Cálculo Primario** (*CPP*), se realiza a 
+La interface de comunicación con el módulo central ***PyHome*** o **Centro de Cálculo Primario** (*CCP*), se realiza a 
 través de una antena **XBee(*ZigBee*)**.
 
 La parte mecánica que realizará la metáfora de pasar las vueltas de la cerradura, será implementada en un servo.
