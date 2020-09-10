@@ -221,7 +221,7 @@ class WatchDog:
         msg = self.antena.escuchar_medio()
         if msg is not None:
             if msg.startswith(self.CMD):
-                self.logger.debug("Orden recibida:\t{}".format(msg))
+                self.logger.info("Orden recibida:\t{}".format(msg))
                 self.ejecutar_accion_progamada(msg.split(':'))
             else:
                 self.monitor_led.blink(0.2, 0.2, 3)
