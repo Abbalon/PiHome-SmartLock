@@ -187,6 +187,8 @@ class WatchDog:
         """
         self.logger.info("Stapleton se ha despertado.")
         self.antena.mandar_mensage(self.INIT + format(config.action_in))
+        if config.remote == 'False':
+            self.logger.info("Se vigilará el acceso")
 
         msg_pool = []
         while self.__im_active:
@@ -219,6 +221,7 @@ class WatchDog:
         msg = self.antena.escuchar_medio()
         if msg is not None:
             if msg.startswith(self.CMD):
+                self.logger.debug("Orden recibida:\t{}".format(msg))
                 self.ejecutar_accion_progamada(msg.split(':'))
             else:
                 self.monitor_led.blink(0.2, 0.2, 3)

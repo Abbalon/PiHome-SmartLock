@@ -48,6 +48,7 @@ class RFID(object):
     def __init__(self):
         self.device = SimpleMFRC522()
         self.logger = config.log.getLogger(__name__)
+        self.logger.info("Lector de tarjetas montado")
 
     def leer_tarjeta(self) -> str:
         """
@@ -55,8 +56,8 @@ class RFID(object):
         """
         try:
             # id, text = self.device.read()
-            id = self.device.read_id_no_block()
-            return id
+            id_tag = self.device.read_id_no_block()
+            return id_tag
         except Exception as ki:
             self.logger.error(str(ki))
             raise
@@ -65,9 +66,11 @@ class RFID(object):
         """
             Lee la tarjeta sin bloquear el proceso y retona la id de la misma
         """
+        self.logger.info("Esperando para leer tarjeta")
         try:
-            id = self.device.read_id()
-            return id
+            id_tag = self.device.read_id()
+            self.logger.info("Tarjeta leida {}".format(id_tag))
+            return id_tag
         except Exception as ki:
             self.logger.error(str(ki))
             raise

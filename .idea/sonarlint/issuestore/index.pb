@@ -1508,3 +1508,5 @@ J
 log/warn.log,f/c/fc16781cee5e02f8cc3184785e1971e139a97024
 ;
 log/log.log,f/1/f1df0aedcaaf35450333afbed1938b2972287183
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
