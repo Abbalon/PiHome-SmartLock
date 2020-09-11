@@ -284,7 +284,7 @@ class WatchDog:
                 self.cerradura.cerrar()
             if order == self.READ_TAG:
                 tag_read = self.reader_tag.esperar_hasta_leer_tarjeta()
-                self.antena.mandar_mensage(self.READ_TAG_OUT + tag_read)
+                self.antena.mandar_mensage(self.READ_TAG_OUT + str(tag_read))
             if order == self.ECHO:
                 status = "Cerradura[" + self.cerradura.estado + "]\n"
                 status += "Antena[" + str(self.antena) + "]\n"
