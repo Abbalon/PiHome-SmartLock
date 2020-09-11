@@ -3,8 +3,6 @@
 requirements.txt,1/9/19359a61ae2446b51b549167b014da2fcf265768
 D
 watchDog/__init__.py,5/a/5abb55d5dc00dab8b9d6bbfc762eb4052a66d938
-9
-	local.ini,1/9/19777c8d014bcc24d9a1fe7e99585c12af9dd692
 M
 .idea/dictionaries/montbs.xml,c/d/cdbe5562cf5e80b950eed77dfe7a672afdb1d06e
 R
@@ -17,7 +15,8 @@ R
 8
 setup.py,8/e/8e2edce0d507e1297474f25c00cae94258db38d8
 =
-test/servo.py,1/e/1ed0bfecea8cfa99f4abd1904672a75fbfe9ca6e
+
+test/servo.py,1/e/1ed0bfecea8cfa99f4abd1904672a75fbfe9ca6e
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4/9/496a238a6afa168dbaf6efd37bb459331589579c
 @
@@ -67,7 +66,8 @@ D
 <
 venv/bin/pip,6/3/6330e727bad9564402c90171cbcb5d73f5fe2488
 =
-venv/bin/pip3,2/4/244a2027d091cdf937f07a23b9a42b5acc307816
+
+venv/bin/pip3,2/4/244a2027d091cdf937f07a23b9a42b5acc307816
 ?
 venv/bin/pip3.8,a/e/aed4e5a7f82654bb22f377058c10ddc30e23ff65
 @
@@ -476,7 +476,7 @@ p
 Kvenv/lib/python3.8/site-packages/pip/_internal/operations/build/__init__.py,2/3/2345acde97f7c4a8825d05624ec8c4ff958d90f9
 {
 Kvenv/lib/python3.8/site-packages/pip/_internal/operations/build/metadata.py,c/1/c1474e5aa11bfe49432930da6ac4fdd7021301b4
-Ç
+ÔøΩ
 Rvenv/lib/python3.8/site-packages/pip/_internal/operations/build/metadata_legacy.py,5/b/5b4001c56f85f0b4ed2d7d1c5b9266d98ec381db
 x
 Hvenv/lib/python3.8/site-packages/pip/_internal/operations/build/wheel.py,1/5/15ae4dbe3a300ab3c0cffedeaa5073a1fd3b4fd4
@@ -484,7 +484,7 @@ Hvenv/lib/python3.8/site-packages/pip/_internal/operations/build/wheel.py,1/5/1
 Ovenv/lib/python3.8/site-packages/pip/_internal/operations/build/wheel_legacy.py,6/5/65f696d7f881c7b5bb2d8eeb88cb26b57ad65e85
 }
 Mvenv/lib/python3.8/site-packages/pip/_internal/operations/install/__init__.py,8/6/86b96bcb8150c97f388ae2408b79204ba74f1842
-Ñ
+ÔøΩ
 Tvenv/lib/python3.8/site-packages/pip/_internal/operations/install/editable_legacy.py,b/e/be656c9402fd77ab464de8e3b34ab09c72270fa5
 {
 Kvenv/lib/python3.8/site-packages/pip/_internal/operations/install/legacy.py,6/7/671ead8278d4ee35ef47aa90ec5a9dc2bf39a7bb
@@ -516,19 +516,19 @@ Cvenv/lib/python3.8/site-packages/pip/_internal/req/req_uninstall.py,e/6/e61357
 Lvenv/lib/python3.8/site-packages/pip/_internal/resolution/legacy/__init__.py,9/f/9f092b15e9b363a51778f2d30c7ae78b45bb9924
 |
 Lvenv/lib/python3.8/site-packages/pip/_internal/resolution/legacy/resolver.py,4/7/47c019d24ead35c13e4cf9539637f518a8ce9bbd
-Ä
+ÔøΩ
 Pvenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/__init__.py,a/3/a3e840784a89e622e98fc2df9debecae6ee6337f
 |
 Lvenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/base.py,e/f/ef6892f7f83c104655735182824657902449c36b
-Ç
+ÔøΩ
 Rvenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/candidates.py,b/1/b15c6911a6b3af5ffed3a100bae6f82126f2c122
 
 Ovenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/factory.py,a/5/a5337d9a2394d609e65816644018a8b7b9faf058
-Ä
+ÔøΩ
 Pvenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/provider.py,8/9/89b7978dd96e1fe3962948fa1d4e44b16a222fe4
-Ñ
+ÔøΩ
 Tvenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/requirements.py,e/b/eb565839961bd759f2f7d4cd841fd793e207c2a7
-Ä
+ÔøΩ
 Pvenv/lib/python3.8/site-packages/pip/_internal/resolution/resolvelib/resolver.py,8/a/8a58171c4b780756c7928cab86751a38471dc71e
 u
 Evenv/lib/python3.8/site-packages/pip/_internal/resolution/__init__.py,6/0/60797b8a6a342ac57acc1fb1872c6309b5e7c385
@@ -796,11 +796,11 @@ q
 Avenv/lib/python3.8/site-packages/pip/_vendor/html5lib/_trie/py.py,9/0/905a98f8208e5a8b516b553e6d7632c992a78018
 y
 Ivenv/lib/python3.8/site-packages/pip/_vendor/html5lib/filters/__init__.py,c/7/c787ff79e7053228a25acf5dc37dc554ab2217c5
-á
+ÔøΩ
 Wvenv/lib/python3.8/site-packages/pip/_vendor/html5lib/filters/alphabeticalattributes.py,9/0/90fa696a8827f3e92b0b2ce00d8f4c4cd62777e3
 u
 Evenv/lib/python3.8/site-packages/pip/_vendor/html5lib/filters/base.py,5/e/5e78ae5b2b8158c7883ad08bc540e016cc4f4cc6
-Ñ
+ÔøΩ
 Tvenv/lib/python3.8/site-packages/pip/_vendor/html5lib/filters/inject_meta_charset.py,1/9/19830ab54bb6ed548f182367b40c738105a72872
 u
 Evenv/lib/python3.8/site-packages/pip/_vendor/html5lib/filters/lint.py,5/2/523fd5155e3e00cc72f49dca602eeba4fde79455
@@ -824,7 +824,7 @@ y
 Ivenv/lib/python3.8/site-packages/pip/_vendor/html5lib/treebuilders/dom.py,c/e/cea3b9e906aa00545806d9103daff8cac991e5d0
 {
 Kvenv/lib/python3.8/site-packages/pip/_vendor/html5lib/treebuilders/etree.py,1/8/18ea6eaaed2c3cb21fce013fdeb8db6c1923d1bd
-Ä
+ÔøΩ
 Pvenv/lib/python3.8/site-packages/pip/_vendor/html5lib/treebuilders/etree_lxml.py,7/4/742ee68a65a1142ad8f971feb0c127b75f875644
 }
 Mvenv/lib/python3.8/site-packages/pip/_vendor/html5lib/treewalkers/__init__.py,8/f/8f070ef215426dc80e7ecf4520d129c62980a5c9
@@ -990,15 +990,15 @@ l
 <venv/lib/python3.8/site-packages/pip/_vendor/toml/ordered.py,b/5/b5ca4da5c5f770a28ef076130e3d6c339d619227
 g
 7venv/lib/python3.8/site-packages/pip/_vendor/toml/tz.py,8/c/8cf3f347135911d0d35f3a295f61d7605b984f27
-â
+ÔøΩ
 Yvenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/_securetransport/__init__.py,5/f/5f98270dbd263cc8466662328717827701129bbe
-â
+ÔøΩ
 Yvenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/_securetransport/bindings.py,8/8/88f1df0b755c0bae4871847e1b30b4baaaa1ea4a
-ä
+ÔøΩ
 Zvenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/_securetransport/low_level.py,4/7/470fb823908486cc9d2bdf61e7e19dc0d7298245
 x
 Hvenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/__init__.py,2/9/29f89735ee4194841466a6c4591364e478606066
-Ç
+ÔøΩ
 Rvenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/_appengine_environ.py,8/2/82bd54d7f114f6f33fddc03a2e064cdd544b1942
 y
 Ivenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/appengine.py,f/b/fb04abcc9c5c42a83a565a561682936d03857971
@@ -1010,13 +1010,13 @@ Ivenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/pyopenssl.py,1/5/
 Ovenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/securetransport.py,6/2/62c021b3e4435559d153b451b273b90963578ad9
 u
 Evenv/lib/python3.8/site-packages/pip/_vendor/urllib3/contrib/socks.py,0/b/0bc3ce9536b98d55093eb2e2e51aa0ea33aeca89
-É
+ÔøΩ
 Svenv/lib/python3.8/site-packages/pip/_vendor/urllib3/packages/backports/__init__.py,5/b/5bea39c8590accd06ad1216f96a02086be8995d2
-É
+ÔøΩ
 Svenv/lib/python3.8/site-packages/pip/_vendor/urllib3/packages/backports/makefile.py,e/c/ec82adaf9e3993499adb4137589dae4b6d1167e6
-å
+ÔøΩ
 \venv/lib/python3.8/site-packages/pip/_vendor/urllib3/packages/ssl_match_hostname/__init__.py,0/b/0b17f53ba3b56923fcb53daf64387719824cf1b9
-ì
+ÔøΩ
 cvenv/lib/python3.8/site-packages/pip/_vendor/urllib3/packages/ssl_match_hostname/_implementation.py,3/9/3952e97a5a94b17ec38dec0a13224f383fbddfcb
 y
 Ivenv/lib/python3.8/site-packages/pip/_vendor/urllib3/packages/__init__.py,8/7/877708f01f8b698fdc626005a552397065e5f63d
@@ -1120,7 +1120,7 @@ Kvenv/lib/python3.8/site-packages/pkg_resources/_vendor/packaging/_compat.py,0/
 Ovenv/lib/python3.8/site-packages/pkg_resources/_vendor/packaging/_structures.py,4/9/499046f449548038224538cb81b7566052d2c1c2
 {
 Kvenv/lib/python3.8/site-packages/pkg_resources/_vendor/packaging/markers.py,0/6/0628f49133ec53d3d44cd38600b99b3e1c4850db
-Ä
+ÔøΩ
 Pvenv/lib/python3.8/site-packages/pkg_resources/_vendor/packaging/requirements.py,1/c/1cca85b3123bd5d661719d6a0a720d0ecd783b62
 ~
 Nvenv/lib/python3.8/site-packages/pkg_resources/_vendor/packaging/specifiers.py,9/a/9af7ee244c89377d2bb7885e6945f2c485786054
@@ -1374,7 +1374,7 @@ d
 4venv/lib/python3.8/site-packages/setuptools/wheel.py,9/7/9766e5a1ba8284ad98975c4289c30e67082e50fb
 n
 >venv/lib/python3.8/site-packages/setuptools/windows_support.py,8/9/89de24fb396d46ca9c5d86ec025f742ac8ed05a3
-Å
+ÔøΩ
 Qvenv/lib/python3.8/site-packages/setuptools-47.1.1.dist-info/dependency_links.txt,f/7/f73f59d1fcc59584c15819c9ba7e4b2e142e0c10
 }
 Mvenv/lib/python3.8/site-packages/setuptools-47.1.1.dist-info/entry_points.txt,0/f/0fc3910baa068a203ed0e4d1abaf761b86e8ac5f
@@ -1504,9 +1504,5 @@ J
 Scripts/listadoOrdenes.xml,5/b/5b752fcefd8a7beb62ef65783e0f73f0b09f2477
 @
 watchDog/RFID.py,9/2/92cb41a916e5dc939a69aaf0f355ad756d92f3ae
-<
-log/warn.log,f/c/fc16781cee5e02f8cc3184785e1971e139a97024
-;
-log/log.log,f/1/f1df0aedcaaf35450333afbed1938b2972287183
 S
 #.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0

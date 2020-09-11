@@ -125,17 +125,6 @@ class XBee(ZigBeeDevice):
         low = self.remote_Zigbee.get_16bit_addr() or XBee16BitAddress.UNKNOWN_ADDRESS
         try:
             # Intentamos mandar el mensaje
-            ## Versión fragmentando el paquete
-            # beg: int = 0
-            # end: int = 75
-            # for i in range(0, int(len(msg) / 75) + 1):
-            #     _msg = msg[beg:end]
-            #     ack = super().send_data_64_16(high, low, _msg)
-            #     if ack.transmit_status is not TransmitStatus.SUCCESS:
-            #         print(format(ack))
-            #     beg = end
-            #     end += 75
-
             ## Versión sin fragmentar el paquete
             ack = super().send_data_64_16(high, low, msg)
             self.logger.debug(format(ack))
@@ -147,7 +136,7 @@ class XBee(ZigBeeDevice):
             # Añadir código para el reintento
         else:
             # TODO Borrar esta traza de control
-            self.logger.debug("Mandado mensaje:\t" + msg)
+            self.logger.info("Mandado mensaje:\t" + msg)
             return ack.transmit_status is TransmitStatus.SUCCESS
 
     def __tratar_entrada(self, recived_msg: XBeeMessage):
