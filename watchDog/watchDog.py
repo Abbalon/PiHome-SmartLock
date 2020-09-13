@@ -187,7 +187,10 @@ class WatchDog:
         :return:
         """
         self.logger.info("Stapleton se ha despertado.")
-        self.antena.mandar_mensage(self.INIT + format(config.action_in))
+        if self.antena.mandar_mensage(self.INIT + format(config.action_in)):
+            self.ok_led.blink(0.2, 0.2, 2)
+        else:
+            self.error_led.blink(0.2, 0.2, 2)
         if config.remote == 'False':
             self.logger.info("Se vigilará el acceso")
 
@@ -238,8 +241,10 @@ class WatchDog:
         if id_tag is not None:
             self.logger.info("Leida targeta:\t{}".format(id_tag))
             self.monitor_led.blink(2, 1, 1)
-            self.antena.mandar_mensage(self.TOC_TOC + str(id_tag))
-            self.ok_led.blink(0.2, 0.2, 2)
+            if self.antena.mandar_mensage(self.TOC_TOC + str(id_tag)):
+                self.ok_led.blink(0.2, 0.2, 2)
+            else:
+                self.error_led.blink(0.2, 0.2, 2)
 
     def __sleep(self):
         self.__im_active = False
@@ -247,7 +252,10 @@ class WatchDog:
 
     def __del__(self):
         """Cerramos los elementos que podrían ser peligrosos que se quedasen prendidos"""
-        self.antena.mandar_mensage(self.SHOUTING_DOWN)
+        if self.antena.mandar_mensage(self.antena.mandar_mensage(self.SHOUTING_DOWN)):
+            self.ok_led.blink(0.2, 0.2, 2)
+        else:
+            self.error_led.blink(0.2, 0.2, 2)
         self.cerradura.abrir()
         # Dejamos 5 seg, antes de cerrar tod0, para cerrar las conexiones correctamente
         sleep(5)
@@ -285,11 +293,17 @@ class WatchDog:
                 self.cerradura.cerrar()
             if order == self.READ_TAG:
                 tag_read = self.reader_tag.esperar_hasta_leer_tarjeta()
-                self.antena.mandar_mensage(self.READ_TAG_OUT + str(tag_read))
+                if self.antena.mandar_mensage(self.READ_TAG_OUT + str(tag_read)):
+                    self.ok_led.blink(0.2, 0.2, 2)
+                else:
+                    self.error_led.blink(0.2, 0.2, 2)
             if order == self.ECHO:
                 status = "Cerradura[" + self.cerradura.estado + "]\n"
                 status += "Antena[" + str(self.antena) + "]\n"
-                self.antena.mandar_mensage(status)
+                if self.antena.mandar_mensage(status):
+                    self.ok_led.blink(0.2, 0.2, 2)
+                else:
+                    self.error_led.blink(0.2, 0.2, 2)
             self.ok_led.blink(0.2, 0.2, 2)
         else:
             self.logger.warning("Se está intentando realizar una acción que no está contemplada.")
