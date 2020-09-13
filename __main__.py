@@ -59,5 +59,5 @@ if __name__ == "__main__":
         logger.warning("Proceso abortado por el usuario")
         sys.exit(0)
     except Exception as e:
-        logger.error(str(e))
+        logger.error("Algo no fue como se esperaba:\n{}".format(e))
         sys.exit(1)
