@@ -33,6 +33,7 @@ class WatchDog:
     # Outputs commands
     INIT = CMD + ":INIT?"
     READ_TAG_OUT = CMD + ":READ_TAG?"
+    TOC_TOC = CMD + ":TOC_TOC?"
     SHOUTING_DOWN = CMD + ":SHOUTING_DOWN"
 
     @property
@@ -237,7 +238,7 @@ class WatchDog:
         if id_tag is not None:
             self.logger.info("Leida targeta:\t{}".format(id_tag))
             self.monitor_led.blink(2, 1, 1)
-            self.antena.mandar_mensage(self.READ_TAG_OUT + str(id_tag))
+            self.antena.mandar_mensage(self.TOC_TOC + str(id_tag))
             self.ok_led.blink(0.2, 0.2, 2)
 
     def __sleep(self):
