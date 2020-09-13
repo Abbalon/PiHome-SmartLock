@@ -32,6 +32,7 @@ class WatchDog:
     ECHO = "ECHO"
     # Outputs commands
     INIT = CMD + ":INIT?"
+    PING = CMD + ":PING?"
     READ_TAG_OUT = CMD + ":READ_TAG?"
     TOC_TOC = CMD + ":TOC_TOC?"
     SHOUTING_DOWN = CMD + ":SHOUTING_DOWN"
@@ -300,7 +301,7 @@ class WatchDog:
             if order == self.ECHO:
                 status = "Cerradura[" + self.cerradura.estado + "]\n"
                 status += "Antena[" + str(self.antena) + "]\n"
-                if self.antena.mandar_mensage(status):
+                if self.antena.mandar_mensage(self.PING + status):
                     self.ok_led.blink(0.2, 0.2, 2)
                 else:
                     self.error_led.blink(0.2, 0.2, 2)
